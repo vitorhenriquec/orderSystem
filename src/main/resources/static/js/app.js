@@ -3,14 +3,33 @@ var appOrderSystem = angular.module("appOrderSystem",[]);
 appOrderSystem.controller("indexController", function($scope,$http){
 	$scope.nome = "Vitor";
 	$scope.produtos = []
-	$http({
-		  method: 'GET',
-		  url: 'http://localhost:8080/produto'
-		}).then(function successCallback(response) {
-			$scope.produtos = response.data
-		  }, function errorCallback(response) {
-			  console.log(response.status);
-		  });
+	$scope.produto = {}
+	$scope.carregarProdutos = function(){
+		$http({
+			  method: 'GET',
+			  url: 'http://localhost:8080/produto'
+			}).then(function successCallback(response) {
+				$scope.produtos = response.data
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
+	
+	
+	$scope.carregarProdutos();
+	
+	$scope.salvarProduto = function(){
+		$http({
+			  method: 'POST',
+			  url: 'http://localhost:8080/produto',
+			  data: produto
+			}).then(function successCallback(response) {
+				console.log(response.status);
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
+	
 });
 
 appOrderSystem.controller("pedidoController", function(){
