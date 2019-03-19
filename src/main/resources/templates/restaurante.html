@@ -9,7 +9,7 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular.min.js" type="text/javascript"></script>
 		<script src="./js/app.js"></script>
 	</head>
-	<body ng-controller="produtoController">
+	<body ng-controller="restauranteController">
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
 			<a class="navbar-brand" href="/orderSystem/index.jsf">Order System</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,48 +33,66 @@
 			</div>
 		</nav>
 		<div class="container mt-5">
-			<h3 class="bg-secondary text-white shadow rounded p-2">Salvar Produto</h3>
+			<h3 class="bg-secondary text-white shadow rounded p-2">Salvar Restaurante</h3>
 			<div class="justify-content-center shadow rounded p-4 pt-5">
 				<form >
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="nomeProduto">Nome do produto:</label>
+						<label class="control-label col-sm-2" for="nome">Nome:</label>
 						<div class="col-sm-5">
-							<input type="text" class="form-control" id="nomeProduto" required="required" ng-model="produto.nome"/>
+							<input type="text" class="form-control" id="nome" required="required" ng-model="restaurante.nomeRestaurante"/>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="precoProduto">Preço do produto:</label>
+						<label class="control-label col-sm-2" for="telefoneProduto">Telefone:</label>
 						<div class="col-sm-2">
-							<input type="text" class="form-control" id="precoProduto" required="required" ng-model="produto.preco"/>
+							<input type="text" class="form-control" id="telefoneProduto" required="required" ng-model="restaurante.telefone"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="ruaRestaurante">Rua:</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" id="ruaRestaurante" required="required" ng-model="restaurante.rua"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="bairroRestaurante">Bairro:</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" id="bairroRestaurante" required="required" ng-model="restaurante.bairro"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="cidadeRestaurante">Cidade:</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" id="cidadeRestaurante" required="required" ng-model="restaurante.cidade"/>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
-							<input type="button" value="Salvar" class="btn btn-primary" ng-click="salvarProduto()"/>
-							<input type="button" value="Cancelar" class="btn btn-primary" ng-click="cancelar()"/>
+							<input type="button" value="Salvar" ng-click="salvarRestaurante()" class="btn btn-primary"/>
+							<input type="button" value="Cancelar"  ng-click="cancelar()" class="btn btn-primary"/>
 						</div>
 					</div>
 				</form>
 			</div>
 		</div>
 		<div class="container mt-5">
-			<h3 class="bg-secondary text-white shadow rounded p-2">Listagem de Produtos</h3>
+			<h3 class="bg-secondary text-white shadow rounded p-2">Listagem de Restaurante</h3>
 			<div class="justify-content-center shadow rounded p-4 pt-5">
 				<table class="table table-striped">
 					<thead>
 					    <tr>
 					        <th>Nome</th>
-					        <th>Preço</th>
+					        <th>Bairro</th>
 					        <th></th>
 					    </tr>
 					</thead>
-					<tbody ng-repeat="pro in produtos">
+					<tbody ng-repeat="res in restaurantes">
 					    <tr>
-					       	<td>{{pro.nome}}</td>
-					        <td>{{pro.preco}}</td>
+					       	<td>{{res.nomeRestaurante}}</td>
+					        <td>{{res.bairro}}</td>
 					        <td>
-					        	<button class="btn btn-primary" ng-click="removerProduto(pro.id)">Remover</button>
-					        	<button class="btn btn-primary" ng-click="alterarProduto(pro)">Alterar</button>
+					        	<button class="btn btn-primary" ng-click="removerRestaurante(res.id)">Remover</button>
+					        	<button class="btn btn-primary" ng-click="alterarRestaurante(res)">Alterar</button>
 					        </td>
 					    </tr>
 					</tbody>
