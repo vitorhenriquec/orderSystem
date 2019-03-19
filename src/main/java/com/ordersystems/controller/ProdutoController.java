@@ -35,7 +35,7 @@ public class ProdutoController {
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
-	@RequestMapping(method=RequestMethod.DELETE,value="/produto{id}")
+	@RequestMapping(method=RequestMethod.DELETE,value="/produto/{id}")
 	public ResponseEntity<?> removerProduto(@PathVariable Integer id){
 		Produto produtoEncontrado = produtoService.buscarPorId(id).get();
 		if(produtoEncontrado == null) {

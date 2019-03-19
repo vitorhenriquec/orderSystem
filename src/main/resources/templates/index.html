@@ -42,12 +42,17 @@
 					    <tr>
 					        <th>Nome</th>
 					        <th>Preço</th>
+					        <th></th>
 					    </tr>
 					</thead>
 					<tbody ng-repeat="pro in produtos">
 					    <tr>
 					       	<td>{{pro.nome}}</td>
 					        <td>{{pro.preco}}</td>
+					        <td>
+					        	<button class="btn btn-primary" ng-click="removerProduto(pro.id)">Remover</button>
+					        	<button class="btn btn-primary">Alterar</button>
+					        </td>
 					    </tr>
 					</tbody>
 				</table>
