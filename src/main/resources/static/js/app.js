@@ -112,6 +112,60 @@ appOrderSystem.controller("cardapioController", function(){
 	
 });
 
+
+appOrderSystem.controller("funcionarioController", function($scope,$http){
+	$scope.funcionarios = [];
+	$scope.funcionario = {};
+		
+	carregarFuncionario = function(){
+		$http({
+			  method: 'GET',
+			  url: 'http://localhost:8080/funcionario'
+			}).then(function successCallback(response) {
+				$scope.funcionarios.push.apply($scope.funcionarios,response.data);
+				console.log($scope.funcionarios);
+				console.log(response.status);
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
+	
+	$scope.salvarFuncionario = function(){
+		$http({
+			  method: 'POST', url: 'http://localhost:8080/funcionario', data: $scope.funcionario
+			}).then(function successCallback(response) {
+				carregarFuncionario();
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
+	
+	$scope.removerFuncionario = function(id){
+		$http({
+			  method: 'DELETE', url: 'http://localhost:8080/funcionario/'+id, 
+			}).then(function successCallback(response) {
+				for(var i = 0; i < $scope.funcionarios.length; i++){
+					if($scope.funcionarios[i].id == id){
+						$scope.funcionarios.slice(i,1);
+						break;
+					}
+				}
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
+	
+	$scope.alterarFuncionario = function(fun){
+		$scope.funcionario = angular.copy(fun);
+	};
+	
+	$scope.cancelar = function(){
+		$scope.funcionario = {};
+	}; 
+	
+	carregarFuncionario();
+});
+
 appOrderSystem.controller("indexController", function(){
 	
 });

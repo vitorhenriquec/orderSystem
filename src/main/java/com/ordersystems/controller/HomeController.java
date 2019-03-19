@@ -16,6 +16,12 @@ public class HomeController {
 		return "produto";
 	}
 	
+	@RequestMapping("/funcionario")
+	public String funcionario() {
+		return "funcionario";
+	}
+	
+	
 	@RequestMapping("/restaurante")
 	public String restaurante() {
 		return "restaurante";
