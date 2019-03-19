@@ -7,30 +7,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ordersystems.domain.Produto;
-import com.ordersystems.repository.PedidoRepository;
+import com.ordersystems.repository.ProdutoRepository;
 
 @Service
 public class ProdutoService {
 	@Autowired
-	PedidoRepository pedidoRepository;
+	ProdutoRepository produtoRepository;
 	
 	public List<Produto> buscarTodos(){
-		return pedidoRepository.findAll();
+		return produtoRepository.findAll();
 	}
 	
 	public Optional<Produto> buscarPorId(int id) {
-		return pedidoRepository.findById(id);
+		return produtoRepository.findById(id);
 	}
 	
 	public void adicionar(Produto produto) {
-		pedidoRepository.save(produto);
+		produtoRepository.save(produto);
 	}
 	
 	public void salvar(Produto produto) {
-		pedidoRepository.save(produto);
+		produtoRepository.save(produto);
 	}
 	
 	public void remover(int id) {
-		pedidoRepository.deleteById(id);
+		produtoRepository.deleteById(id);
 	}
 }
