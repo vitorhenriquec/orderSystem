@@ -21,7 +21,7 @@ appOrderSystem.controller("indexController", function($scope,$http){
 			  method: 'GET',
 			  url: 'http://localhost:8080/produto'
 			}).then(function successCallback(response) {
-				$scope.produtos = response.data;
+				$scope.produtos.push(response.data);
 			  }, function errorCallback(response) {
 				  console.log(response.status);
 			  });
