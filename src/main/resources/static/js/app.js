@@ -106,6 +106,56 @@ appOrderSystem.controller("restauranteController", function($scope,$http){
 
 appOrderSystem.controller("mesaController", function(){
 	
+	$scope.mesas = [];
+	$scope.mesa = {};
+		
+	carregarMesas = function(){
+		$http({
+			  method: 'GET',
+			  url: 'http://localhost:8080/mesa'
+			}).then(function successCallback(response) {
+				$scope.mesas.push.apply($scope.mesas, response.data);
+				console.log(response.status);
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
+	
+	$scope.salvarMesa = function(){
+		$http({
+			  method: 'POST', url: 'http://localhost:8080/mesa', data: $scope.mesa
+			}).then(function successCallback(response) {
+				carregarMesas();
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
+	
+	$scope.removerMesa = function(id){
+		$http({
+			  method: 'DELETE', url: 'http://localhost:8080/mesa/'+id, 
+			}).then(function successCallback(response) {
+				for(var i = 0; i < $scope.mesas.length; i++){
+					if($scope.mesas[i].id == id){
+						$scope.mesas.slice(i,1);
+						break;
+					}
+				}
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
+	
+	$scope.alterarMesa = function(mes){
+		$scope.mesa = angular.copy(mes);
+	};
+	
+	$scope.cancelar = function(){
+		$scope.mesa = {};
+	}; 
+	
+	carregarMesas();
+	
 });
 
 appOrderSystem.controller("cardapioController", function(){
