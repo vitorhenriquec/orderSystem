@@ -36,6 +36,7 @@ appOrderSystem.controller("produtoController", function($scope,$http){
 						break;
 					}
 				}
+				carregarProdutos();
 			  }, function errorCallback(response) {
 				  console.log(response.status);
 			  });
@@ -61,7 +62,7 @@ appOrderSystem.controller("restauranteController", function($scope,$http){
 			  method: 'GET',
 			  url: 'http://localhost:8080/restaurante'
 			}).then(function successCallback(response) {
-				$scope.restaurantes.push.apply($scope.restaurantes,response.data);
+				$scope.restaurantes = response.data;
 				console.log(response.status);
 			  }, function errorCallback(response) {
 				  console.log(response.status);
@@ -88,6 +89,7 @@ appOrderSystem.controller("restauranteController", function($scope,$http){
 						break;
 					}
 				}
+				carregarRestaurante();
 			  }, function errorCallback(response) {
 				  console.log(response.status);
 			  });
@@ -141,6 +143,7 @@ appOrderSystem.controller("mesaController", function($scope,$http){
 						break;
 					}
 				}
+				carregarMesas();
 			  }, function errorCallback(response) {
 				  console.log(response.status);
 			  });
@@ -200,6 +203,7 @@ appOrderSystem.controller("funcionarioController", function($scope,$http){
 						break;
 					}
 				}
+				carregarFuncionario();
 			  }, function errorCallback(response) {
 				  console.log(response.status);
 			  });
