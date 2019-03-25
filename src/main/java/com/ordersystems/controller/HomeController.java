@@ -39,6 +39,6 @@ public class HomeController {
 	
 	@RequestMapping("/mesa")
 	public String mesa() {
-		return "produto";
+		return "mesa";
 	}
 }

@@ -104,7 +104,7 @@ appOrderSystem.controller("restauranteController", function($scope,$http){
 	carregarRestaurante();
 });
 
-appOrderSystem.controller("mesaController", function(){
+appOrderSystem.controller("mesaController", function($scope,$http){
 	
 	$scope.mesas = [];
 	$scope.mesa = {};
@@ -114,7 +114,7 @@ appOrderSystem.controller("mesaController", function(){
 			  method: 'GET',
 			  url: 'http://localhost:8080/mesa'
 			}).then(function successCallback(response) {
-				$scope.mesas.push.apply($scope.mesas, response.data);
+				$scope.mesas = response.data;
 				console.log(response.status);
 			  }, function errorCallback(response) {
 				  console.log(response.status);
