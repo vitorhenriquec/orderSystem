@@ -35,42 +35,37 @@
 		<div class="container mt-5">
 			<h3 class="bg-secondary text-white shadow rounded p-2">Fazer pedido</h3>
 			<div class="justify-content-center shadow rounded p-4 pt-5">
-				<form >
+				<form>
 					<div class="form-group" action="adicionarLista();">
 						<label class="control-label col-sm-2" for="produto">Produtos disponíveis:</label>
-						<div class="col-sm-5" id="produtos" ng-repeat="pro in produtos">
-							<select class="custom-select" name="prod">
+						<div class="col-sm-5" >
+							<select class="custom-select" name="prod" id="produtos" ng-repeat="pro in produtos">
 							  <option value="{{pro}}">{{pro.nome}} - R$ {{pro.preco}}</option>
 							</select>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
-							<input type="button" value="+" class="btn btn-primary"/>
+							<input type="button" value="+" class="btn btn-primary" ng-click="adicionarAoPedido()"/>
 						</div>
 					</div>
 				</form>
 			</div>
 		</div>
 		<div class="container mt-5">
-			<h3 class="bg-secondary text-white shadow rounded p-2">Produtos do pedido</h3>
+			<h3 class="bg-secondary text-white shadow rounded p-2">Composição</h3>
 			<div class="justify-content-center shadow rounded p-4 pt-5">
 				<table class="table table-striped">
 					<thead>
 					    <tr>
 					        <th>Nome</th>
 					        <th>Preço</th>
-					        <th></th>
 					    </tr>
 					</thead>
-					<tbody ng-repeat="pro in produtos">
+					<tbody ng-repeat="pe in pedidoAdicionados">
 					    <tr>
-					       	<td>{{pro.nome}}</td>
-					        <td>{{pro.preco}}</td>
-					        <td>
-					        	<button class="btn btn-primary" ng-click="removerProduto(pro.id)">Remover</button>
-					        	<button class="btn btn-primary" ng-click="alterarProduto(pro)">Alterar</button>
-					        </td>
+					       	<td>{{pe.nome}}</td>
+					        <td>{{pe.preco}}</td>
 					    </tr>
 					</tbody>
 				</table>
