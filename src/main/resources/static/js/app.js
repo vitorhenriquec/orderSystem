@@ -9,7 +9,7 @@ appOrderSystem.controller("produtoController", function($scope,$http){
 			  method: 'GET',
 			  url: 'http://localhost:8080/produto'
 			}).then(function successCallback(response) {
-				$scope.produtos.push.apply($scope.produtos, response.data);
+				$scope.produtos = response.data;
 				console.log(response.status);
 			  }, function errorCallback(response) {
 				  console.log(response.status);
@@ -161,11 +161,6 @@ appOrderSystem.controller("mesaController", function($scope,$http){
 	
 });
 
-appOrderSystem.controller("cardapioController", function(){
-	
-});
-
-
 appOrderSystem.controller("funcionarioController", function($scope,$http){
 	$scope.funcionarios = [];
 	$scope.funcionario = {};
@@ -218,6 +213,102 @@ appOrderSystem.controller("funcionarioController", function($scope,$http){
 	}; 
 	
 	carregarFuncionario();
+});
+
+appOrderSystem.controller("cardapioController", function($scope,$http){
+	$scope.cardapios = [];
+	$scope.cardapio = {};
+	$scope.cardapioDTO = {};
+	$scope.produtosCardapio = [];
+	$scope.produtos = [];
+	
+	carregarProdutos = function(){
+		$http({
+		  method: 'GET',
+		  url: 'http://localhost:8080/produto'
+		}).then(function successCallback(response) {
+		  $scope.produtos = response.data;
+//		  console.log($scope.produtos);
+	    }, function errorCallback(response) {
+		  console.log(response.status);
+	    });
+	};
+		
+	carregarCardapios = function(){
+		$http({
+			  method: 'GET',
+			  url: 'http://localhost:8080/cardapio'
+			}).then(function successCallback(response) {
+				$scope.cardapios = response.data;
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
+	
+	carregarProdutosCardapios = function() {
+		$http({
+			method: 'GET',
+			url: 'http://localhost:8080/produtosCardapio'
+		}).then(function success(response) {
+			$scope.produtosCardapio = response.data;
+		}, function err(response) {
+			console.log(response);
+		});
+	}
+	
+	$scope.salvarCardapio = function(){
+		
+		var produtos = [];
+		
+		for(var i = 0; i < $scope.produtos.length; i++) {
+			if($scope.produtos[i].checked) produtos.push($scope.produtos[i]);
+		}
+		
+		$scope.cardapioDTO.produtos = produtos;
+		$scope.cardapioDTO.cardapio = $scope.cardapio;
+		
+		console.log($scope.cardapioDTO);
+		
+		$http({
+			  method: 'POST', url: 'http://localhost:8080/cardapio', data: $scope.cardapioDTO
+			}).then(function successCallback(response) {
+				init();
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
+	
+	$scope.removerCardapio = function(id){
+		$http({
+			  method: 'DELETE', url: 'http://localhost:8080/cardapio/'+id, 
+			}).then(function successCallback(response) {
+				for(var i = 0; i < $scope.cardapios.length; i++){
+					if($scope.cardapios[i].id == id){
+						$scope.cardapios.slice(i,1);
+						break;
+					}
+				}
+				init();
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
+	
+	$scope.alterarCardapio = function(card){
+		$scope.cardapio = angular.copy(card);
+	};
+	
+	$scope.cancelar = function(){
+		$scope.cardapio = {};
+	};
+	
+	var init = function () {		
+		carregarProdutosCardapios();
+		
+		carregarProdutos();
+		
+		carregarCardapios();
+	}
 });
 
 appOrderSystem.controller("indexController", function(){
