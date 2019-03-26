@@ -313,6 +313,104 @@ appOrderSystem.controller("cardapioController", function($scope,$http){
 	init();
 });
 
+appOrderSystem.controller("pedidoController", function($scope,$http){
+	$scope.pedidos = [];
+	$scope.pedido = {};
+	$scope.pedidoDTO = {};
+	$scope.produtosCardapio = [];
+	$scope.produtos = [];
+	
+	init = function () {		
+		carregarProdutosPedido();
+		
+		carregarProdutos();
+		
+		carregarPedido();
+	}
+	
+	carregarProdutos = function(){
+		$http({
+		  method: 'GET',
+		  url: 'http://localhost:8080/produto'
+		}).then(function successCallback(response) {
+		  $scope.produtos = response.data;
+//		  console.log($scope.produtos);
+	    }, function errorCallback(response) {
+		  console.log(response.status);
+	    });
+	};
+		
+	carregarPedidos = function(){
+		$http({
+			  method: 'GET',
+			  url: 'http://localhost:8080/pedido'
+			}).then(function successCallback(response) {
+				$scope.pedido = response.data;
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
+	
+	carregarProdutosCardapios = function() {
+		$http({
+			method: 'GET',
+			url: 'http://localhost:8080/produtosCardapio'
+		}).then(function success(response) {
+			$scope.produtosCardapio = response.data;
+		}, function err(response) {
+			console.log(response);
+		});
+	}
+	
+	$scope.salvarCardapio = function(){
+		
+		var produtos = [];
+		
+		for(var i = 0; i < $scope.produtos.length; i++) {
+			if($scope.produtos[i].checked) produtos.push($scope.produtos[i]);
+		}
+		
+		$scope.cardapioDTO.produtos = produtos;
+		$scope.cardapioDTO.cardapio = $scope.cardapio;
+		
+		console.log($scope.cardapioDTO);
+		
+		$http({
+			  method: 'POST', url: 'http://localhost:8080/cardapio', data: $scope.cardapioDTO
+			}).then(function successCallback(response) {
+				init();
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
+	
+	$scope.removerCardapio = function(id){
+		$http({
+			  method: 'DELETE', url: 'http://localhost:8080/cardapio/'+id, 
+			}).then(function successCallback(response) {
+				for(var i = 0; i < $scope.cardapios.length; i++){
+					if($scope.cardapios[i].id == id){
+						$scope.cardapios.slice(i,1);
+						break;
+					}
+				}
+				init();
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
+	
+	$scope.alterarCardapio = function(card){
+		$scope.cardapio = angular.copy(card);
+	};
+	
+	$scope.cancelar = function(){
+		$scope.cardapio = {};
+	};
+	
+	init();
+});
+
 appOrderSystem.controller("indexController", function(){
 	
 });
