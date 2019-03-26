@@ -1,15 +1,15 @@
 var appOrderSystem = angular.module("appOrderSystem",[]);
 
-appOrderSystem.controller("indexController", function($scope,$http){
-	$scope.produtos = []
-	$scope.produto = {}
+appOrderSystem.controller("produtoController", function($scope,$http){
+	$scope.produtos = [];
+	$scope.produto = {};
 		
 	carregarProdutos = function(){
 		$http({
 			  method: 'GET',
 			  url: 'http://localhost:8080/produto'
 			}).then(function successCallback(response) {
-				$scope.produtos.push.apply($scope.produtos,response.data);
+				$scope.produtos.push.apply($scope.produtos, response.data);
 				console.log(response.status);
 			  }, function errorCallback(response) {
 				  console.log(response.status);
@@ -31,9 +31,8 @@ appOrderSystem.controller("indexController", function($scope,$http){
 			  method: 'DELETE', url: 'http://localhost:8080/produto/'+id, 
 			}).then(function successCallback(response) {
 				for(var i = 0; i < $scope.produtos.length; i++){
-					if($scope.produtos[i].id == parseFloat(id)){
+					if($scope.produtos[i].id == id){
 						$scope.produtos.slice(i,1);
-						carregarProdutos();
 						break;
 					}
 				}
@@ -49,11 +48,60 @@ appOrderSystem.controller("indexController", function($scope,$http){
 	$scope.cancelar = function(){
 		$scope.produto = {};
 	}; 
+	
 	carregarProdutos();
 });
 
-appOrderSystem.controller("pedidoController", function(){
+appOrderSystem.controller("restauranteController", function($scope,$http){
+	$scope.restaurantes = [];
+	$scope.restaurante = {};
+		
+	carregarRestaurante = function(){
+		$http({
+			  method: 'GET',
+			  url: 'http://localhost:8080/restaurante'
+			}).then(function successCallback(response) {
+				$scope.restaurantes.push.apply($scope.restaurantes,response.data);
+				console.log(response.status);
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
 	
+	$scope.salvarRestaurante = function(){
+		$http({
+			  method: 'POST', url: 'http://localhost:8080/restaurante', data: $scope.restaurante
+			}).then(function successCallback(response) {
+				carregarRestaurante();
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
+	
+	$scope.removerRestaurante = function(id){
+		$http({
+			  method: 'DELETE', url: 'http://localhost:8080/restaurante/'+id, 
+			}).then(function successCallback(response) {
+				for(var i = 0; i < $scope.restaurantes.length; i++){
+					if($scope.restaurantes[i].id == id){
+						$scope.restaurantes.slice(i,1);
+						break;
+					}
+				}
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
+	
+	$scope.alterarRestaurante = function(res){
+		$scope.restaurante = angular.copy(res);
+	};
+	
+	$scope.cancelar = function(){
+		$scope.restaurante = {};
+	}; 
+	
+	carregarRestaurante();
 });
 
 appOrderSystem.controller("mesaController", function(){
@@ -64,6 +112,60 @@ appOrderSystem.controller("cardapioController", function(){
 	
 });
 
-appOrderSystem.controller("produtoController", function(){
+
+appOrderSystem.controller("funcionarioController", function($scope,$http){
+	$scope.funcionarios = [];
+	$scope.funcionario = {};
+		
+	carregarFuncionario = function(){
+		$http({
+			  method: 'GET',
+			  url: 'http://localhost:8080/funcionario'
+			}).then(function successCallback(response) {
+				$scope.funcionarios.push.apply($scope.funcionarios,response.data);
+				console.log($scope.funcionarios);
+				console.log(response.status);
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
+	
+	$scope.salvarFuncionario = function(){
+		$http({
+			  method: 'POST', url: 'http://localhost:8080/funcionario', data: $scope.funcionario
+			}).then(function successCallback(response) {
+				carregarFuncionario();
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
+	
+	$scope.removerFuncionario = function(id){
+		$http({
+			  method: 'DELETE', url: 'http://localhost:8080/funcionario/'+id, 
+			}).then(function successCallback(response) {
+				for(var i = 0; i < $scope.funcionarios.length; i++){
+					if($scope.funcionarios[i].id == id){
+						$scope.funcionarios.slice(i,1);
+						break;
+					}
+				}
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
+	
+	$scope.alterarFuncionario = function(fun){
+		$scope.funcionario = angular.copy(fun);
+	};
+	
+	$scope.cancelar = function(){
+		$scope.funcionario = {};
+	}; 
+	
+	carregarFuncionario();
+});
+
+appOrderSystem.controller("indexController", function(){
 	
 });

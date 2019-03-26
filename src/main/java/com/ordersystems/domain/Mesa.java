@@ -11,6 +11,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -30,6 +32,10 @@ public class Mesa implements Serializable{
 	@OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,mappedBy = "mesa")
 	private List<Pedido> pedidos = new ArrayList<Pedido>();
+	
+	@ManyToOne
+	@JoinColumn(name = "restaurante_id")
+	private Restaurante restaurante;
 	
 	public Mesa() {
 		
@@ -59,6 +65,22 @@ public class Mesa implements Serializable{
 
 	public void setPedido(List<Pedido> pedidos) {
 		this.pedidos = pedidos;
+	}
+
+	public List<Pedido> getPedidos() {
+		return pedidos;
+	}
+
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
+	}
+
+	public Restaurante getRestaurante() {
+		return restaurante;
+	}
+
+	public void setRestaurante(Restaurante restaurante) {
+		this.restaurante = restaurante;
 	}
 		
 }
