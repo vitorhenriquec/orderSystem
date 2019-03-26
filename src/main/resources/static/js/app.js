@@ -36,6 +36,7 @@ appOrderSystem.controller("produtoController", function($scope,$http){
 						break;
 					}
 				}
+				carregarProdutos();
 			  }, function errorCallback(response) {
 				  console.log(response.status);
 			  });
@@ -61,7 +62,7 @@ appOrderSystem.controller("restauranteController", function($scope,$http){
 			  method: 'GET',
 			  url: 'http://localhost:8080/restaurante'
 			}).then(function successCallback(response) {
-				$scope.restaurantes.push.apply($scope.restaurantes,response.data);
+				$scope.restaurantes = response.data;
 				console.log(response.status);
 			  }, function errorCallback(response) {
 				  console.log(response.status);
@@ -88,6 +89,7 @@ appOrderSystem.controller("restauranteController", function($scope,$http){
 						break;
 					}
 				}
+				carregarRestaurante();
 			  }, function errorCallback(response) {
 				  console.log(response.status);
 			  });
@@ -104,7 +106,58 @@ appOrderSystem.controller("restauranteController", function($scope,$http){
 	carregarRestaurante();
 });
 
-appOrderSystem.controller("mesaController", function(){
+appOrderSystem.controller("mesaController", function($scope,$http){
+	
+	$scope.mesas = [];
+	$scope.mesa = {};
+		
+	carregarMesas = function(){
+		$http({
+			  method: 'GET',
+			  url: 'http://localhost:8080/mesa'
+			}).then(function successCallback(response) {
+				$scope.mesas = response.data;
+				console.log(response.status);
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
+	
+	$scope.salvarMesa = function(){
+		$http({
+			  method: 'POST', url: 'http://localhost:8080/mesa', data: $scope.mesa
+			}).then(function successCallback(response) {
+				carregarMesas();
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
+	
+	$scope.removerMesa = function(id){
+		$http({
+			  method: 'DELETE', url: 'http://localhost:8080/mesa/'+id, 
+			}).then(function successCallback(response) {
+				for(var i = 0; i < $scope.mesas.length; i++){
+					if($scope.mesas[i].id == id){
+						$scope.mesas.slice(i,1);
+						break;
+					}
+				}
+				carregarMesas();
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
+	
+	$scope.alterarMesa = function(mes){
+		$scope.mesa = angular.copy(mes);
+	};
+	
+	$scope.cancelar = function(){
+		$scope.mesa = {};
+	}; 
+	
+	carregarMesas();
 	
 });
 
@@ -150,6 +203,7 @@ appOrderSystem.controller("funcionarioController", function($scope,$http){
 						break;
 					}
 				}
+				carregarFuncionario();
 			  }, function errorCallback(response) {
 				  console.log(response.status);
 			  });
