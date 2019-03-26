@@ -25,13 +25,16 @@ public class Pedido implements Serializable{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
-	@OneToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY, mappedBy = "pedido")
-	private List<Produto> produtos = new ArrayList<Produto>();
+	@OneToMany(mappedBy = "pedido")
+	private List<Produto> produtos;
 	
 	@ManyToOne
 	@JoinColumn(name = "mesa_id")
 	private Mesa mesa;
+	
+	public Pedido() {
+		
+	}
 	
 	public Pedido(int id, List<Produto> produtos) {
 		this.id = id;

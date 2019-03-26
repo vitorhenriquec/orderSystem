@@ -169,7 +169,7 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 	$scope.pedidos = [];
 	$scope.produtos = [];
 	$scope.pedido = {};
-	$scope.pedidoAdicionados = []
+	$scope.produtosAdicionados = []
 		
 	carregarPedido = function(){
 		$http({
@@ -189,7 +189,7 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 		$http({
 			  method: 'POST', url: 'http://localhost:8080/pedido', data: $scope.pedido
 			}).then(function successCallback(response) {
-				carregarPedido();
+				console.log($scope.pedido);
 			  }, function errorCallback(response) {
 				  console.log(response.status);
 			  });
@@ -232,10 +232,9 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 	};
 	
 	$scope.adicionarAoPedido = function(){
-		$scope.pedidoAdicionados.push(JSON.parse(document.getElementById("produtos").value));
+		$scope.produtosAdicionados.push(JSON.parse(document.getElementById("produtos").value));
 	};
 	
-	carregarPedido();
 	carregarProdutos();
 });
 

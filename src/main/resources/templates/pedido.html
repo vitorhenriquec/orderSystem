@@ -38,9 +38,9 @@
 				<form>
 					<div class="form-group" action="adicionarLista();">
 						<label class="control-label col-sm-2" for="produto">Produtos disponíveis:</label>
-						<div class="col-sm-5" >
-							<select class="custom-select" name="prod" id="produtos" ng-repeat="pro in produtos">
-							  <option value="{{pro}}">{{pro.nome}} - R$ {{pro.preco}}</option>
+						<div class="col-sm-5">
+							<select class="custom-select" name="prod" id="produtos">
+								<option ng-repeat="pro in produtos" value="{{pro}}">{{pro.nome}} - R$ {{pro.preco}}</option>
 							</select>
 						</div>
 					</div>
@@ -62,13 +62,21 @@
 					        <th>Preço</th>
 					    </tr>
 					</thead>
-					<tbody ng-repeat="pe in pedidoAdicionados">
+					<tbody ng-repeat="pa in produtosAdicionados">
 					    <tr>
-					       	<td>{{pe.nome}}</td>
-					        <td>{{pe.preco}}</td>
+					       	<td>{{pa.nome}}</td>
+					        <td>{{pa.preco}}</td>
 					    </tr>
 					</tbody>
 				</table>
+				<form>
+					<input type="hidden" value="{{produtosAdicionados}}" ng-model="pedido.produtos"/>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<input type="button" value="Finalizar" class="btn btn-primary" ng-click="salvarPedido()"/>
+						</div>
+					</div>
+				</form>
 			</div>
 		</div>
 	</body>
