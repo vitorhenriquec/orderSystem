@@ -31,10 +31,6 @@ public class Produto implements Serializable{
 	@JoinColumn(name = "pedido_id")
 	private Pedido pedido;
 	
-	@ManyToOne
-	@JoinColumn(name = "cardapio_id")
-	private Cardapio cardapio;
-	
 	public Produto() {}
 
 	public Produto(int id, String nome, Double preco) {
@@ -73,14 +69,5 @@ public class Produto implements Serializable{
 
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
-	}
-
-	public Cardapio getCardapio() {
-		return cardapio;
-	}
-
-	public void setCardapio(Cardapio cardapio) {
-		this.cardapio = cardapio;
-	}
-	
+	}	
 }
