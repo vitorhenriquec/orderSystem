@@ -1,6 +1,7 @@
 package com.ordersystems.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -30,6 +33,12 @@ public class Produto implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "pedido_id")
 	private Pedido pedido;
+	
+	@ManyToMany
+	@JoinTable(name = "produto_cardapio",
+    joinColumns = { @JoinColumn(name = "produto_id") },
+    inverseJoinColumns = { @JoinColumn(name = "cardapio_id") })
+	private List<Cardapio> cardapios;
 	
 	public Produto() {}
 
@@ -69,5 +78,14 @@ public class Produto implements Serializable{
 
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
-	}	
+	}
+
+	public List<Cardapio> getCardapios() {
+		return cardapios;
+	}
+
+	public void setCardapios(List<Cardapio> cardapios) {
+		this.cardapios = cardapios;
+	}
+	
 }
