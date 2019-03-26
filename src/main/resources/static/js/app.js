@@ -170,7 +170,7 @@ appOrderSystem.controller("funcionarioController", function($scope,$http){
 			  method: 'GET',
 			  url: 'http://localhost:8080/funcionario'
 			}).then(function successCallback(response) {
-				$scope.funcionarios.push.apply($scope.funcionarios,response.data);
+				$scope.funcionarios = response.data;
 				console.log($scope.funcionarios);
 				console.log(response.status);
 			  }, function errorCallback(response) {
@@ -221,6 +221,14 @@ appOrderSystem.controller("cardapioController", function($scope,$http){
 	$scope.cardapioDTO = {};
 	$scope.produtosCardapio = [];
 	$scope.produtos = [];
+	
+	init = function () {		
+		carregarProdutosCardapios();
+		
+		carregarProdutos();
+		
+		carregarCardapios();
+	}
 	
 	carregarProdutos = function(){
 		$http({
@@ -302,13 +310,7 @@ appOrderSystem.controller("cardapioController", function($scope,$http){
 		$scope.cardapio = {};
 	};
 	
-	var init = function () {		
-		carregarProdutosCardapios();
-		
-		carregarProdutos();
-		
-		carregarCardapios();
-	}
+	init();
 });
 
 appOrderSystem.controller("indexController", function(){
