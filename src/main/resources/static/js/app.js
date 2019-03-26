@@ -165,6 +165,74 @@ appOrderSystem.controller("cardapioController", function(){
 	
 });
 
+appOrderSystem.controller("pedidoController", function($scope,$http){
+	$scope.pedidos = [];
+	$scope.produtos = [];
+	$scope.pedido = {};
+		
+	carregarPedido = function(){
+		$http({
+			  method: 'GET',
+			  url: 'http://localhost:8080/pedido'
+			}).then(function successCallback(response) {
+				$scope.pedidos = response.data;
+				console.log(response.status);
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
+	
+	
+	
+	$scope.salvarPedido = function(){
+		$http({
+			  method: 'POST', url: 'http://localhost:8080/pedido', data: $scope.pedido
+			}).then(function successCallback(response) {
+				carregarPedido();
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
+	
+	$scope.removerPedido = function(id){
+		$http({
+			  method: 'DELETE', url: 'http://localhost:8080/pedido/'+id, 
+			}).then(function successCallback(response) {
+				for(var i = 0; i < $scope.pedidos.length; i++){
+					if($scope.funcionarios[i].id == id){
+						$scope.pedidos.slice(i,1);
+						break;
+					}
+				}
+				carregarPedido();
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
+	
+	$scope.alterarFuncionario = function(ped){
+		$scope.pedido = angular.copy(ped);
+	};
+	
+	$scope.cancelar = function(){
+		$scope.pedido = {};
+	}; 
+	
+	carregarProdutos = function(){
+		$http({
+			  method: 'GET',
+			  url: 'http://localhost:8080/produto'
+			}).then(function successCallback(response) {
+				$scope.produtos = response.data;
+				console.log(response.status);
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
+	
+	carregarPedido();
+	carregarProdutos();
+});
 
 appOrderSystem.controller("funcionarioController", function($scope,$http){
 	$scope.funcionarios = [];
@@ -216,6 +284,7 @@ appOrderSystem.controller("funcionarioController", function($scope,$http){
 	$scope.cancelar = function(){
 		$scope.funcionario = {};
 	}; 
+	
 	
 	carregarFuncionario();
 });
