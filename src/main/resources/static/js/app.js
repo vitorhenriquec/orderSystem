@@ -313,6 +313,34 @@ appOrderSystem.controller("cardapioController", function($scope,$http){
 	init();
 });
 
+
+appOrderSystem.controller("pedidoController", function($scope,$http){
+	$scope.cardapios = [];
+	
+	init = function () {		
+		carregarCardapios();
+	}
+			
+	carregarCardapios = function(){
+		$http({
+			  method: 'GET',
+			  url: 'http://localhost:8080/cardapio'
+			}).then(function successCallback(response) {
+				$scope.cardapios = response.data;
+				console.log(response.data);
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
+	
+	
+	$scope.cancelar = function(){
+		$scope.cardapio = {};
+	};
+	
+	init();
+});
+
 appOrderSystem.controller("indexController", function(){
 	
 });

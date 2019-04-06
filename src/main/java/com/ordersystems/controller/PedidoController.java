@@ -11,39 +11,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ordersystems.domain.Pedido;
-import com.ordersystems.service.CardapioService;
 import com.ordersystems.service.PedidoService;
-import com.ordersystems.service.ProdutoService;
 
 @RestController
 public class PedidoController {
 	@Autowired
 	PedidoService pedidoService;
 	
-	@Autowired 
-	ProdutoService produtoService;
-	
-	@Autowired
-	CardapioService cardapioService;
-	
-	@RequestMapping(method=RequestMethod.GET,value="/pedido",produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method=RequestMethod.GET,value="/buscarPedidos",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> buscarTodos(){
 		return new ResponseEntity<>(pedidoService.buscarTodos(),HttpStatus.OK);
 	}
-	
-	@RequestMapping(method=RequestMethod.POST,value="/pedido",consumes=MediaType.APPLICATION_JSON_UTF8_VALUE)
+		
+	@RequestMapping(method=RequestMethod.POST,value="/adicionarPedido",consumes=MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<?> adicionarPedido(@RequestBody Pedido pedido){
 		pedidoService.adicionar(pedido);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
-	
-	@RequestMapping(method=RequestMethod.PUT,value="/pedido",produces = MediaType.APPLICATION_JSON_VALUE,consumes=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<?> alterarPedido(@RequestBody Pedido pedido){
-		pedidoService.salvar(pedido);
-		return new ResponseEntity<>(HttpStatus.CREATED);
-	}
-	
-	@RequestMapping(method=RequestMethod.DELETE,value="/pedido/{id}")
+		
+	@RequestMapping(method=RequestMethod.DELETE,value="/removerPedido/{id}")
 	public ResponseEntity<?> removerPedido(@PathVariable Integer id){
 		Pedido pedidoEncontrado = pedidoService.buscarPorId(id).get();
 		if(pedidoEncontrado == null) {
