@@ -1,8 +1,10 @@
 package com.ordersystems.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,11 +36,14 @@ public class Produto implements Serializable{
 	@JoinColumn(name = "pedido_id")
 	private Pedido pedido;
 	
-	@ManyToMany
+	@ManyToMany(cascade = {
+				CascadeType.PERSIST,
+                CascadeType.MERGE
+            })
 	@JoinTable(name = "produto_cardapio",
     joinColumns = { @JoinColumn(name = "produto_id") },
     inverseJoinColumns = { @JoinColumn(name = "cardapio_id") })
-	private List<Cardapio> cardapios;
+	private List<Cardapio> cardapios = new ArrayList<Cardapio>();
 	
 	public Produto() {}
 
