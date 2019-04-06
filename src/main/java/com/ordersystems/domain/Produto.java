@@ -13,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -32,9 +31,14 @@ public class Produto implements Serializable{
 	@Column(name="preco")
 	private Double preco;
 	
-	@ManyToOne
-	@JoinColumn(name = "pedido_id")
-	private Pedido pedido;
+	@ManyToMany(cascade = {
+			CascadeType.PERSIST,
+            CascadeType.MERGE
+        })
+	@JoinTable(name = "produto_pedido",
+    joinColumns = { @JoinColumn(name = "produto_id") },
+    inverseJoinColumns = { @JoinColumn(name = "pedido_id") })
+	private List<Pedido> pedidos = new ArrayList<Pedido>();
 	
 	@ManyToMany(cascade = {
 				CascadeType.PERSIST,
@@ -43,7 +47,7 @@ public class Produto implements Serializable{
 	@JoinTable(name = "produto_cardapio",
     joinColumns = { @JoinColumn(name = "produto_id") },
     inverseJoinColumns = { @JoinColumn(name = "cardapio_id") })
-	private List<Cardapio> cardapios = new ArrayList<Cardapio>();
+	private List<Cardapio> cardapios;
 	
 	public Produto() {}
 
@@ -77,12 +81,12 @@ public class Produto implements Serializable{
 		this.preco = preco;
 	}
 
-	public Pedido getPedido() {
-		return pedido;
+	public List<Pedido> getPedido() {
+		return pedidos;
 	}
 
-	public void setPedido(Pedido pedido) {
-		this.pedido = pedido;
+	public void setPedido(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
 	}
 
 	public List<Cardapio> getCardapios() {
