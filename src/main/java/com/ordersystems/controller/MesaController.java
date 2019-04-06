@@ -21,31 +21,53 @@ public class MesaController {
 	
 	@RequestMapping(method=RequestMethod.GET,value="/mesa",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> buscarTodos(){
-		return new ResponseEntity<>(mesaService.buscarTodos(),HttpStatus.OK);
+		try {
+			return new ResponseEntity<>(mesaService.buscarTodos(),HttpStatus.OK);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 	
 	@RequestMapping(method=RequestMethod.POST,value="/mesa",consumes=MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<?> adicionarProduto(@RequestBody Mesa mesa){
-		mesaService.adicionar(mesa);
-		return new ResponseEntity<>(HttpStatus.CREATED);
+		try {
+			mesaService.adicionar(mesa);
+			return new ResponseEntity<>(HttpStatus.CREATED);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT,value="/mesa",produces = MediaType.APPLICATION_JSON_VALUE,consumes=MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<?> alterarProduto(@RequestBody Mesa mesa){
-		mesaService.salvar(mesa);
-		return new ResponseEntity<>(HttpStatus.CREATED);
+		try {
+			mesaService.salvar(mesa);
+			return new ResponseEntity<>(HttpStatus.CREATED);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@RequestMapping(method=RequestMethod.DELETE,value="/mesa/{id}")
 	public ResponseEntity<?> removerProduto(@PathVariable Integer id){
-		Mesa mesaEncontrado = mesaService.buscarPorId(id).get();
-		if(mesaEncontrado == null) {
+
+		try {
+			mesaService.buscarPorId(id).get();
+				try {
+					mesaService.remover(id);
+					return new ResponseEntity<>(HttpStatus.OK);
+				}
+				catch(Exception e) {
+					return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				}
+		}
+		catch(Exception e){
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		else {
-			mesaService.remover(id);
-			return new ResponseEntity<>(HttpStatus.OK);
-		}
+
 	}
 
 }
