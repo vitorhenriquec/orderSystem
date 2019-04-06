@@ -38,8 +38,11 @@ public class Restaurante implements Serializable{
 	@Column(name="cidade")
 	private String cidade;
 	
-	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "restaurante")
+	@OneToMany(mappedBy = "restaurante")
 	private List<Mesa> mesas;
+	
+	@OneToMany(mappedBy = "restaurante")
+	private List<Cardapio> cardapios;
 
 	public Restaurante() {
 
@@ -110,5 +113,20 @@ public class Restaurante implements Serializable{
 	public void setMesas(List<Mesa> mesas) {
 		this.mesas = mesas;
 	}
-	
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public List<Cardapio> getCardapios() {
+		return cardapios;
+	}
+
+	public void setCardapios(List<Cardapio> cardapios) {
+		this.cardapios = cardapios;
+	}
 }
