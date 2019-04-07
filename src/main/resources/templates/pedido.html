@@ -35,11 +35,11 @@
 		<div class="container mt-5">
 			<h3 class="bg-secondary text-white shadow rounded p-2">Fazer Pedido</h3>
 			<div class="justify-content-center shadow rounded p-4 pt-5">
-			<form>
+			<form ng-if="produtos.length != 0">
 				<div class="form-group produtos" ng-repeat="pro in produtos">
 					<label class="control-label col-sm-2" for="produto#{{pro.id}}">{{pro.nome}}</label>
-					<input type="hidden" value={{pro}}/>
-					<input type="number" id="produto#{{pro.id}}" name="quantity" value="0" min="0" max="5"/>
+					<input type="hidden" value={{pro}}>
+					<input type="number" id="produto#{{pro.id}}" name="quantity" value="0" min="0" max="5">
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">

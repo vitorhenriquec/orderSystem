@@ -39,22 +39,20 @@ public class PedidoController {
 		
 	@RequestMapping(method=RequestMethod.POST,value="/pedido",consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> adicionarPedido(@RequestBody Pedido pedido){
+		List<Produto> produtos = new ArrayList<Produto>();
 		try{
 			Mesa mesa = mesaService.buscarPorId(pedido.getMesa().getId()).get();
-			List<Produto> produtos = new ArrayList<Produto>();
-			
+				
 			for(Produto produto : pedido.getProdutos()) {
 				Produto produtoDB = produtoService.buscarPorId(produto.getId()).get();
-				
 				produtoDB.getPedido().add(pedido);
-				
 				produtos.add(produtoDB);
 			}
 			
 			pedido.setMesa(mesa);
 			pedido.setProdutos(produtos);
-			
 			pedidoService.adicionar(pedido);
+			
 			return new ResponseEntity<>(HttpStatus.CREATED);
 		}
 		catch(Exception e){

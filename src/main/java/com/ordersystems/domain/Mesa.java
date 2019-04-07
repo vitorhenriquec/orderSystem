@@ -16,8 +16,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "mesa")
+@JsonIgnoreProperties({"pedidos","pedido"})
 public class Mesa implements Serializable{
 	
 	private static final long serialVersionUID = 1L;

@@ -117,7 +117,6 @@ appOrderSystem.controller("mesaController", function($scope,$http){
 			  url: 'http://localhost:8080/mesa'
 			}).then(function successCallback(response) {
 				$scope.mesas = response.data;
-				console.log(response.status);
 			  }, function errorCallback(response) {
 				  console.log(response.status);
 			  });
@@ -357,7 +356,6 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 			  url: 'http://localhost:8080/produto'
 			}).then(function successCallback(response) {
 				$scope.produtos = response.data;
-				console.log($scope.produtos);
 			  }, function errorCallback(response) {
 				  console.log(response.status);
 			  });
@@ -394,16 +392,18 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 		getMesa();
 		if($scope.mesaPedido != null){
 			var produtosPedidos = [];
-			var produtosSolicitados = document.getElementsByClassName('produtos');
-			/*for(var i = 0; i < produtosSolicitados.length ;i++){
-				var inputs = produtosSolicitados[i].getElementsByTagName('input');
-				while(inputs[1].value != 0){
-					produtosPedidos.push(JSON.parse(inputs[0].getAttribute("value")));
-					(inputs[1].value)-=1;
+			var produtosSolicitados = document.getElementsByClassName("produtos");
+			for(var i = 0; i < produtosSolicitados.length ;i++){
+				var inputs = produtosSolicitados[i].getElementsByTagName("input");
+				var produto  = JSON.parse(inputs[0].getAttribute("value"));
+				var qtdProduto = inputs[1].value;
+				while(qtdProduto != 0){
+					produtosPedidos.push(produto);
+					qtdProduto-=1;
 				}
-			}*/
-			$scope.pedido.mesa = $scope.mesaPedido;		
-			$scope.pedido.produtos = $scope.produtos;
+			}
+			$scope.pedido.mesa = $scope.mesaPedido;
+			$scope.pedido.produtos = produtosPedidos;
 			$http({
 				  method: 'POST', url: 'http://localhost:8080/pedido', data: $scope.pedido
 				}).then(function successCallback(response) {
@@ -411,6 +411,7 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 				  }, function errorCallback(response) {
 					  console.log(response.status);
 				  });
+			$scope.pedido = {};
 		}
 		else{
 			console.log("Erro: Informações da mesa indisponível");

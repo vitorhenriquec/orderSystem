@@ -34,9 +34,7 @@ public class Produto implements Serializable{
 	@Column(name="preco")
 	private Double preco;
 	
-	@ManyToMany(cascade = {
-			CascadeType.ALL
-        },mappedBy = "produtos")
+	@ManyToMany(mappedBy = "produtos")
 	private List<Pedido> pedidos = new ArrayList<Pedido>();
 	
 	@ManyToMany(cascade = {
