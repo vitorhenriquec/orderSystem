@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ordersystems.domain.Cardapio;
 import com.ordersystems.domain.Produto;
+import com.ordersystems.domain.Restaurante;
 import com.ordersystems.service.CardapioService;
 import com.ordersystems.service.ProdutoService;
+import com.ordersystems.service.RestauranteService;
 
 @RestController
 public class CardapioController {
@@ -26,6 +28,9 @@ public class CardapioController {
 	@Autowired
 	ProdutoService produtosService;
 	
+	@Autowired
+	RestauranteService restauranteService;
+	
 	
 	@RequestMapping(method=RequestMethod.GET,value="/cardapio",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> buscarTodos(){
@@ -35,6 +40,8 @@ public class CardapioController {
 	@RequestMapping(method=RequestMethod.POST,value="/cardapio",consumes=MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<?> adicionarCardapio(@RequestBody Cardapio cardapio){
 		try{
+			
+			Restaurante restaurante = restauranteService.buscarPorId(cardapio.getRestaurante().getId()).get();
 			List<Produto> produtos = new ArrayList<>();
 			
 			for(Produto produto : cardapio.getProdutos()) {
@@ -45,6 +52,7 @@ public class CardapioController {
 				produtos.add(produtoDB);
 			}
 			
+			cardapio.setRestaurante(restaurante);
 			cardapio.setProdutos(produtos);
 			
 			cardapioService.adicionar(cardapio);

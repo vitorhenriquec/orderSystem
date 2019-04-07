@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ordersystems.domain.Restaurante;
+import com.ordersystems.exception.NegocioException;
 import com.ordersystems.service.RestauranteService;
 
 @RestController
@@ -24,14 +25,22 @@ public class RestauranteController {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST,value="/restaurante",consumes=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<?> adicionarProduto(@RequestBody Restaurante restaurante){
-		restauranteService.adicionar(restaurante);
+	public ResponseEntity<?> adicionarProduto(@RequestBody Restaurante restaurante) {
+		
+		try {
+			restauranteService.adicionar(restaurante);
+		} catch (NegocioException e) {
+			e.printStackTrace();
+			return new ResponseEntity<Object>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT,value="/restaurante",produces = MediaType.APPLICATION_JSON_VALUE,consumes=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<?> alterarProduto(@RequestBody Restaurante restaurante){
-		restauranteService.salvar(restaurante);
+	public ResponseEntity<?> alterarProduto(@RequestBody Restaurante restaurante) {
+		
+		restauranteService.alterar(restaurante);
+		
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	

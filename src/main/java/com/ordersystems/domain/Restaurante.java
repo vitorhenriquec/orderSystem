@@ -13,8 +13,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "restaurante")
+@JsonIgnoreProperties({"cardapios"})
 public class Restaurante implements Serializable{
 	
 	private static final long serialVersionUID = 1L;

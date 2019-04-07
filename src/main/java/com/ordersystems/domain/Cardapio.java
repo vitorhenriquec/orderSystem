@@ -40,7 +40,7 @@ public class Cardapio implements Serializable{
 	private List<Produto> produtos = new ArrayList<Produto>();
 	
 	@ManyToOne
-	@JoinColumn(name = "restaurante_id")
+	@JoinColumn(name = "restaurante_id", nullable=false)
 	private Restaurante restaurante;
 	
 	public Cardapio() {
@@ -69,6 +69,14 @@ public class Cardapio implements Serializable{
 
 	public void setProdutos(List<Produto> produtos) {
 		this.produtos = produtos;
+	}
+
+	public Restaurante getRestaurante() {
+		return restaurante;
+	}
+
+	public void setRestaurante(Restaurante restaurante) {
+		this.restaurante = restaurante;
 	}
 
 }

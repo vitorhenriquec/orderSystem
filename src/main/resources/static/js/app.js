@@ -56,7 +56,8 @@ appOrderSystem.controller("produtoController", function($scope,$http){
 appOrderSystem.controller("restauranteController", function($scope,$http){
 	$scope.restaurantes = [];
 	$scope.restaurante = {};
-		
+	$scope.error;
+	
 	carregarRestaurante = function(){
 		$http({
 			  method: 'GET',
@@ -70,12 +71,15 @@ appOrderSystem.controller("restauranteController", function($scope,$http){
 	};
 	
 	$scope.salvarRestaurante = function(){
+		$scope.error = '';
 		$http({
 			  method: 'POST', url: 'http://localhost:8080/restaurante', data: $scope.restaurante
 			}).then(function successCallback(response) {
 				carregarRestaurante();
 			  }, function errorCallback(response) {
-				  console.log(response.status);
+//				  console.log(response);
+//				  alert(response.data.message);
+				  $scope.error = response.data.message;
 			  });
 	};
 	
