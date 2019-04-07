@@ -18,18 +18,18 @@ public class PedidoController {
 	@Autowired
 	PedidoService pedidoService;
 	
-	@RequestMapping(method=RequestMethod.GET,value="/buscarPedidos",produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method=RequestMethod.GET,value="/pedido",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> buscarTodos(){
 		return new ResponseEntity<>(pedidoService.buscarTodos(),HttpStatus.OK);
 	}
 		
-	@RequestMapping(method=RequestMethod.POST,value="/adicionarPedido",consumes=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(method=RequestMethod.POST,value="/pedido",consumes=MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<?> adicionarPedido(@RequestBody Pedido pedido){
 		pedidoService.adicionar(pedido);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 		
-	@RequestMapping(method=RequestMethod.DELETE,value="/removerPedido/{id}")
+	@RequestMapping(method=RequestMethod.DELETE,value="/pedido/{id}")
 	public ResponseEntity<?> removerPedido(@PathVariable Integer id){
 		Pedido pedidoEncontrado = pedidoService.buscarPorId(id).get();
 		if(pedidoEncontrado == null) {

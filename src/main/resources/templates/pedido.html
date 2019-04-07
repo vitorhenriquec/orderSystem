@@ -36,7 +36,16 @@
 			<h3 class="bg-secondary text-white shadow rounded p-2">Fazer Pedido</h3>
 			<div class="justify-content-center shadow rounded p-4 pt-5">
 			<form>
-				
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="produto#1">A</label>
+					<input type="hidden" id="ident" value="1"/>
+					<input type="number" id="produto#1" name="quantity" min="0" max="5"/>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<input type="button" value="Fazer pedido" class="btn btn-primary" ng-click="fazerPedido()"/>
+					</div>
+				</div>
 			</form>
 			</div>
 		</div>

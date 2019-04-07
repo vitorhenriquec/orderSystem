@@ -316,9 +316,19 @@ appOrderSystem.controller("cardapioController", function($scope,$http){
 
 appOrderSystem.controller("pedidoController", function($scope,$http){
 	$scope.cardapios = [];
+	$scope.mesas = [];
+	$scope.mesa = {};
+	$scope.pedidos = [];
+	$scope.pedido = {};
+	$scope.mesaPedido = '';
+	$scope.produtos = [];
 	
 	init = function () {		
 		carregarCardapios();
+		carregarPedidos();
+		carregarMesa();
+		getMesa();
+	
 	}
 			
 	carregarCardapios = function(){
@@ -327,10 +337,51 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 			  url: 'http://localhost:8080/cardapio'
 			}).then(function successCallback(response) {
 				$scope.cardapios = response.data;
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
+	
+	carregarPedidos = function(){
+		$http({
+			  method: 'GET',
+			  url: 'http://localhost:8080/pedido'
+			}).then(function successCallback(response) {
+				$scope.pedidos = response.data;
 				console.log(response.data);
 			  }, function errorCallback(response) {
 				  console.log(response.status);
 			  });
+	};
+	
+	carregarMesa = function(){
+		$http({
+			  method: 'GET',
+			  url: 'http://localhost:8080/mesa'
+			}).then(function successCallback(response) {
+				$scope.mesas = response.data;
+				console.log($scope.mesas);
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
+	
+	getMesa = function(){
+		var url = new URL(window.location.href)
+		try{
+			var mesa = url.searchParams.get("idMesa");
+			procurarMesa(mesa);
+		}catch(e){
+			console.log("Informação da mesa indisponível");
+		} 
+	};
+	
+	procurarMesa = function(idMesa){
+		for(var i = 0; i < mesas.lenght; i++){
+			if(mesas[i].id == mesa){
+				$scope.mesa = mesas[i];
+			}
+		}
 	};
 	
 	
