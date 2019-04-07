@@ -1,5 +1,6 @@
 package com.ordersystems.exception;
 
+@SuppressWarnings("serial")
 public class NegocioException extends Exception {
 
 	public NegocioException() {
