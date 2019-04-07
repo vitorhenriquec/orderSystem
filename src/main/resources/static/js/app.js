@@ -219,7 +219,7 @@ appOrderSystem.controller("cardapioController", function($scope,$http){
 	$scope.cardapios = [];
 	$scope.cardapio = {};
 	$scope.produtos = [];
-	$scope.produto = {}
+	$scope.produto = {};
 	
 	init = function () {		
 		carregarProdutos();
@@ -257,7 +257,7 @@ appOrderSystem.controller("cardapioController", function($scope,$http){
 				produtos.push($scope.produtos[i]);
 			} 
 		}
-		$scope.cardapio.produtos = produtos
+		$scope.cardapio.produtos = produtos;
 		$http({
 			  method: 'POST', url: 'http://localhost:8080/cardapio', data: $scope.cardapio
 			}).then(function successCallback(response) {

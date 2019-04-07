@@ -11,9 +11,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "cardapio")
@@ -23,15 +26,17 @@ public class Cardapio implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	
 	@Column(name="nome")
 	private String nome;
 	
 	@ManyToMany(cascade = {
-			CascadeType.PERSIST,
-            CascadeType.MERGE
-        },mappedBy = "cardapios")
+			CascadeType.ALL
+        })
+	@JoinTable(name = "cardapio_produto",
+	joinColumns = { @JoinColumn(name = "cardapio_id", referencedColumnName = "id") },
+	inverseJoinColumns = { @JoinColumn(name = "produto_id", referencedColumnName = "id") })
 	private List<Produto> produtos = new ArrayList<Produto>();
 	
 	@ManyToOne
@@ -42,11 +47,11 @@ public class Cardapio implements Serializable{
 
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
