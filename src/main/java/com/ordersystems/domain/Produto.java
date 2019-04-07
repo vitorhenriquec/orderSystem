@@ -44,7 +44,7 @@ public class Produto implements Serializable{
 	@JoinTable(name = "produto_cardapio",
     joinColumns = { @JoinColumn(name = "produto_id") },
     inverseJoinColumns = { @JoinColumn(name = "cardapio_id") })
-	private List<Cardapio> cardapios = new ArrayList<Cardapio>();
+	private List<Cardapio> cardapios;
 	
 	public Produto() {}
 

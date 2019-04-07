@@ -217,15 +217,11 @@ appOrderSystem.controller("funcionarioController", function($scope,$http){
 appOrderSystem.controller("cardapioController", function($scope,$http){
 	$scope.cardapios = [];
 	$scope.cardapio = {};
-	$scope.cardapioDTO = {};
-	$scope.produtosCardapio = [];
 	$scope.produtos = [];
+	$scope.produto = {}
 	
 	init = function () {		
-		carregarProdutosCardapios();
-		
 		carregarProdutos();
-		
 		carregarCardapios();
 	}
 	
@@ -235,7 +231,6 @@ appOrderSystem.controller("cardapioController", function($scope,$http){
 		  url: 'http://localhost:8080/produto'
 		}).then(function successCallback(response) {
 		  $scope.produtos = response.data;
-//		  console.log($scope.produtos);
 	    }, function errorCallback(response) {
 		  console.log(response.status);
 	    });
@@ -247,39 +242,25 @@ appOrderSystem.controller("cardapioController", function($scope,$http){
 			  url: 'http://localhost:8080/cardapio'
 			}).then(function successCallback(response) {
 				$scope.cardapios = response.data;
+				console.log($scope.cardapios);
 			  }, function errorCallback(response) {
 				  console.log(response.status);
 			  });
 	};
-	
-	carregarProdutosCardapios = function() {
-		$http({
-			method: 'GET',
-			url: 'http://localhost:8080/produtosCardapio'
-		}).then(function success(response) {
-			$scope.produtosCardapio = response.data;
-		}, function err(response) {
-			console.log(response);
-		});
-	}
-	
-	$scope.salvarCardapio = function(){
 		
+	$scope.salvarCardapio = function(){
 		var produtos = [];
 		
 		for(var i = 0; i < $scope.produtos.length; i++) {
-			if($scope.produtos[i].checked) produtos.push($scope.produtos[i]);
+			if($scope.produtos[i].checked){
+				produtos.push($scope.produtos[i]);
+			} 
 		}
-		
-		$scope.cardapioDTO.produtos = produtos;
-		$scope.cardapioDTO.cardapio = $scope.cardapio;
-		
-		console.log($scope.cardapioDTO);
-		
+		$scope.cardapio.produtos = produtos
 		$http({
-			  method: 'POST', url: 'http://localhost:8080/cardapio', data: $scope.cardapioDTO
+			  method: 'POST', url: 'http://localhost:8080/cardapio', data: $scope.cardapio
 			}).then(function successCallback(response) {
-				init();
+				console.log(response.status);
 			  }, function errorCallback(response) {
 				  console.log(response.status);
 			  });

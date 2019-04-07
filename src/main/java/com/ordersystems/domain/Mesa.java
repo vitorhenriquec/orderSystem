@@ -33,7 +33,7 @@ public class Mesa implements Serializable{
 	
 	@OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,mappedBy = "mesa")
-	private List<Pedido> pedidos = new ArrayList<Pedido>();
+	private List<Pedido> pedidos;
 	
 	@ManyToOne
 	@JoinColumn(name = "restaurante_id")
