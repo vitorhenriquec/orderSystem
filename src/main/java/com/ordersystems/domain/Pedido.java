@@ -34,6 +34,10 @@ public class Pedido implements Serializable{
 	@JoinColumn(name = "mesa_id")
 	private Mesa mesa;
 	
+	public Pedido() {
+		
+	}
+	
 	public Pedido(int id, List<Produto> produtos) {
 		this.id = id;
 		this.produtos = produtos;

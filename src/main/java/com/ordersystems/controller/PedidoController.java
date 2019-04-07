@@ -1,5 +1,6 @@
 package com.ordersystems.controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,21 +13,25 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ordersystems.domain.Pedido;
 import com.ordersystems.service.PedidoService;
+import com.ordersystems.service.ProdutoService;
 
 @RestController
 public class PedidoController {
 	@Autowired
 	PedidoService pedidoService;
 	
+	@Autowired
+	ProdutoService produtoService;
+		
 	@RequestMapping(method=RequestMethod.GET,value="/pedido",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> buscarTodos(){
 		return new ResponseEntity<>(pedidoService.buscarTodos(),HttpStatus.OK);
 	}
 		
-	@RequestMapping(method=RequestMethod.POST,value="/pedido",consumes=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(method=RequestMethod.POST,value="/pedido",consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> adicionarPedido(@RequestBody Pedido pedido){
 		pedidoService.adicionar(pedido);
-		return new ResponseEntity<>(HttpStatus.CREATED);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 		
 	@RequestMapping(method=RequestMethod.DELETE,value="/pedido/{id}")

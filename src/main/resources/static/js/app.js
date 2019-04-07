@@ -316,20 +316,29 @@ appOrderSystem.controller("cardapioController", function($scope,$http){
 
 appOrderSystem.controller("pedidoController", function($scope,$http){
 	$scope.cardapios = [];
-	$scope.mesas = [];
-	$scope.mesa = {};
 	$scope.pedidos = [];
+	$scope.mesas = [];
 	$scope.pedido = {};
-	$scope.mesaPedido = '';
+	$scope.mesaPedido = null;
 	$scope.produtos = [];
 	
-	init = function () {		
+	init = function () {
+		carregarMesas();
+		carregarProdutos();
 		carregarCardapios();
 		carregarPedidos();
-		carregarMesa();
-		getMesa();
-	
 	}
+	
+	carregarMesas = function(){
+		$http({
+			  method: 'GET',
+			  url: 'http://localhost:8080/mesa'
+			}).then(function successCallback(response) {
+				$scope.mesas = response.data;
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
 			
 	carregarCardapios = function(){
 		$http({
@@ -342,45 +351,70 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 			  });
 	};
 	
+	carregarProdutos = function(){
+		$http({
+			  method: 'GET',
+			  url: 'http://localhost:8080/produto'
+			}).then(function successCallback(response) {
+				$scope.produtos = response.data;
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+			  });
+	};
+	
 	carregarPedidos = function(){
 		$http({
 			  method: 'GET',
 			  url: 'http://localhost:8080/pedido'
 			}).then(function successCallback(response) {
 				$scope.pedidos = response.data;
-				console.log(response.data);
-			  }, function errorCallback(response) {
-				  console.log(response.status);
-			  });
-	};
-	
-	carregarMesa = function(){
-		$http({
-			  method: 'GET',
-			  url: 'http://localhost:8080/mesa'
-			}).then(function successCallback(response) {
-				$scope.mesas = response.data;
-				console.log($scope.mesas);
 			  }, function errorCallback(response) {
 				  console.log(response.status);
 			  });
 	};
 	
 	getMesa = function(){
-		var url = new URL(window.location.href)
-		try{
-			var mesa = url.searchParams.get("idMesa");
-			procurarMesa(mesa);
-		}catch(e){
-			console.log("Informação da mesa indisponível");
-		} 
+		var idMesa = parseInt(new URL(window.location.href).searchParams.get("idMesa"));
+		procurarMesa(idMesa);
 	};
 	
 	procurarMesa = function(idMesa){
-		for(var i = 0; i < mesas.lenght; i++){
-			if(mesas[i].id == mesa){
-				$scope.mesa = mesas[i];
+		var mesasEncontradas = $scope.mesas;
+		for(var i = 0; i < mesasEncontradas.length; i++){
+			var mesa = mesasEncontradas[i];
+			if(mesa.id == idMesa){
+				$scope.mesaPedido = mesa;
+				break;
 			}
+		}
+	};
+	
+	$scope.fazerPedido = function(){
+		getMesa();
+		if($scope.mesaPedido != null){
+			var produtosPedidos = [];
+			var produtosSolicitados = document.getElementsByClassName('produtos');
+			for(var i = 0; i < produtosSolicitados.length ;i++){
+				var inputs = produtosSolicitados[i].getElementsByTagName('input');
+				while(inputs[1].value != 0){
+					produtosPedidos.push(JSON.parse(inputs[0].getAttribute("value")));
+					(inputs[1].value)-=1;
+				}
+			}
+			$scope.pedido.mesa = $scope.mesaPedido;		
+			$scope.pedido.produtos  = $scope.produtos;
+			$http({
+				  method: 'POST', url: 'http://localhost:8080/pedido', data: $scope.pedido
+				}).then(function successCallback(response) {
+					 console.log(response.status);
+					 carregarPedidos();
+				  }, function errorCallback(response) {
+					  console.log(response.status);
+				  });
+			console.log($scope.pedidos);
+		}
+		else{
+			alert("Informações da mesa indisponível");
 		}
 	};
 	

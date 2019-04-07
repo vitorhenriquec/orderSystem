@@ -58,19 +58,11 @@ public class Mesa implements Serializable{
 		this.denominacao = denominacao;
 	}
 
-	public List<Pedido> getPedido() {
-		return pedidos;
-	}
-
-	public void setPedido(List<Pedido> pedidos) {
-		this.pedidos = pedidos;
-	}
-
 	public List<Pedido> getPedidos() {
 		return pedidos;
 	}
 
-	public void setPedidos(List<Pedido> pedidos) {
+	public void setPedido(List<Pedido> pedidos) {
 		this.pedidos = pedidos;
 	}
 
