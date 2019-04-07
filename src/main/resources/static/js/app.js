@@ -398,12 +398,12 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 			/*for(var i = 0; i < produtosSolicitados.length ;i++){
 				var inputs = produtosSolicitados[i].getElementsByTagName('input');
 				while(inputs[1].value != 0){
-					produtosPedidos.push(produtosindexOf(JSON.parse(inputs[0].getAttribute("value"))));
+					produtosPedidos.push(JSON.parse(inputs[0].getAttribute("value")));
 					(inputs[1].value)-=1;
 				}
 			}*/
 			$scope.pedido.mesa = $scope.mesaPedido;		
-			$scope.pedido.produto = $scope.produtos;
+			$scope.pedido.produtos = $scope.produtos;
 			$http({
 				  method: 'POST', url: 'http://localhost:8080/pedido', data: $scope.pedido
 				}).then(function successCallback(response) {
@@ -413,7 +413,7 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 				  });
 		}
 		else{
-			alert("Informações da mesa indisponível");
+			console.log("Erro: Informações da mesa indisponível");
 		}
 	};
 	

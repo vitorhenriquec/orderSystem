@@ -1,6 +1,9 @@
 package com.ordersystems.controller;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ordersystems.domain.Mesa;
 import com.ordersystems.domain.Pedido;
+import com.ordersystems.domain.Produto;
+import com.ordersystems.service.MesaService;
 import com.ordersystems.service.PedidoService;
 import com.ordersystems.service.ProdutoService;
 
@@ -22,6 +28,9 @@ public class PedidoController {
 	
 	@Autowired
 	ProdutoService produtoService;
+	
+	@Autowired
+	MesaService mesaService;
 		
 	@RequestMapping(method=RequestMethod.GET,value="/pedido",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> buscarTodos(){
@@ -30,8 +39,28 @@ public class PedidoController {
 		
 	@RequestMapping(method=RequestMethod.POST,value="/pedido",consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> adicionarPedido(@RequestBody Pedido pedido){
-		pedidoService.adicionar(pedido);
-		return new ResponseEntity<>(HttpStatus.OK);
+		try{
+			Mesa mesa = mesaService.buscarPorId(pedido.getMesa().getId()).get();
+			List<Produto> produtos = new ArrayList<Produto>();
+			
+			for(Produto produto : pedido.getProdutos()) {
+				Produto produtoDB = produtoService.buscarPorId(produto.getId()).get();
+				
+				produtoDB.getPedido().add(pedido);
+				
+				produtos.add(produtoDB);
+			}
+			
+			pedido.setMesa(mesa);
+			pedido.setProdutos(produtos);
+			
+			pedidoService.adicionar(pedido);
+			return new ResponseEntity<>(HttpStatus.CREATED);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 		
 	@RequestMapping(method=RequestMethod.DELETE,value="/pedido/{id}")

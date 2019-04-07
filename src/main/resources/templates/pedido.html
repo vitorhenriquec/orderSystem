@@ -38,6 +38,7 @@
 			<form>
 				<div class="form-group produtos" ng-repeat="pro in produtos">
 					<label class="control-label col-sm-2" for="produto#{{pro.id}}">{{pro.nome}}</label>
+					<input type="hidden" value={{pro}}/>
 					<input type="number" id="produto#{{pro.id}}" name="quantity" value="0" min="0" max="5"/>
 				</div>
 				<div class="form-group">
