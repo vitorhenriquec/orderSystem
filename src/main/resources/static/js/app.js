@@ -357,6 +357,7 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 			  url: 'http://localhost:8080/produto'
 			}).then(function successCallback(response) {
 				$scope.produtos = response.data;
+				console.log($scope.produtos);
 			  }, function errorCallback(response) {
 				  console.log(response.status);
 			  });
@@ -394,24 +395,22 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 		if($scope.mesaPedido != null){
 			var produtosPedidos = [];
 			var produtosSolicitados = document.getElementsByClassName('produtos');
-			for(var i = 0; i < produtosSolicitados.length ;i++){
+			/*for(var i = 0; i < produtosSolicitados.length ;i++){
 				var inputs = produtosSolicitados[i].getElementsByTagName('input');
 				while(inputs[1].value != 0){
-					produtosPedidos.push(JSON.parse(inputs[0].getAttribute("value")));
+					produtosPedidos.push(produtosindexOf(JSON.parse(inputs[0].getAttribute("value"))));
 					(inputs[1].value)-=1;
 				}
-			}
+			}*/
 			$scope.pedido.mesa = $scope.mesaPedido;		
-			$scope.pedido.produtos  = $scope.produtos;
+			$scope.pedido.produto = $scope.produtos;
 			$http({
 				  method: 'POST', url: 'http://localhost:8080/pedido', data: $scope.pedido
 				}).then(function successCallback(response) {
 					 console.log(response.status);
-					 carregarPedidos();
 				  }, function errorCallback(response) {
 					  console.log(response.status);
 				  });
-			console.log($scope.pedidos);
 		}
 		else{
 			alert("Informações da mesa indisponível");
