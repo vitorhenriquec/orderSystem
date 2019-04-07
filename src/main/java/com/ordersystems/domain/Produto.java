@@ -15,8 +15,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "produto")
+@JsonIgnoreProperties({"cardapios","pedido"})
 public class Produto implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -31,13 +34,7 @@ public class Produto implements Serializable{
 	@Column(name="preco")
 	private Double preco;
 	
-	@ManyToMany(cascade = {
-			CascadeType.PERSIST,
-            CascadeType.MERGE
-        })
-	@JoinTable(name = "produto_pedido",
-    joinColumns = { @JoinColumn(name = "produto_id") },
-    inverseJoinColumns = { @JoinColumn(name = "pedido_id") })
+	@ManyToMany(mappedBy = "produtos")
 	private List<Pedido> pedidos = new ArrayList<Pedido>();
 	
 	@ManyToMany(cascade = {

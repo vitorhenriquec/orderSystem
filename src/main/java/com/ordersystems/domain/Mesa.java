@@ -16,8 +16,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "mesa")
+@JsonIgnoreProperties({"pedidos","pedido"})
 public class Mesa implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -58,19 +61,11 @@ public class Mesa implements Serializable{
 		this.denominacao = denominacao;
 	}
 
-	public List<Pedido> getPedido() {
-		return pedidos;
-	}
-
-	public void setPedido(List<Pedido> pedidos) {
-		this.pedidos = pedidos;
-	}
-
 	public List<Pedido> getPedidos() {
 		return pedidos;
 	}
 
-	public void setPedidos(List<Pedido> pedidos) {
+	public void setPedido(List<Pedido> pedidos) {
 		this.pedidos = pedidos;
 	}
 

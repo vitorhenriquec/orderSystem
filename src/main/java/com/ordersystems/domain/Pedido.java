@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -25,14 +26,20 @@ public class Pedido implements Serializable{
 	private int id;
 	
 	@ManyToMany(cascade = {
-			CascadeType.PERSIST,
-            CascadeType.MERGE
-        },mappedBy = "pedidos")
+			CascadeType.ALL
+        })
+	@JoinTable(name = "pedido_produto",
+    joinColumns = { @JoinColumn(name = "pedido_id",referencedColumnName = "id") },
+    inverseJoinColumns = { @JoinColumn(name = "produto_id",referencedColumnName = "id") })
 	private List<Produto> produtos = new ArrayList<Produto>();
 	
 	@ManyToOne
 	@JoinColumn(name = "mesa_id")
 	private Mesa mesa;
+	
+	public Pedido() {
+		
+	}
 	
 	public Pedido(int id, List<Produto> produtos) {
 		this.id = id;
