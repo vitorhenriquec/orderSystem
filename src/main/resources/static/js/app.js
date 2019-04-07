@@ -56,7 +56,8 @@ appOrderSystem.controller("produtoController", function($scope,$http){
 appOrderSystem.controller("restauranteController", function($scope,$http){
 	$scope.restaurantes = [];
 	$scope.restaurante = {};
-		
+	$scope.error;
+	
 	carregarRestaurante = function(){
 		$http({
 			  method: 'GET',
@@ -70,12 +71,15 @@ appOrderSystem.controller("restauranteController", function($scope,$http){
 	};
 	
 	$scope.salvarRestaurante = function(){
+		$scope.error = '';
 		$http({
 			  method: 'POST', url: 'http://localhost:8080/restaurante', data: $scope.restaurante
 			}).then(function successCallback(response) {
 				carregarRestaurante();
 			  }, function errorCallback(response) {
-				  console.log(response.status);
+//				  console.log(response);
+//				  alert(response.data.message);
+				  $scope.error = response.data.message;
 			  });
 	};
 	
@@ -218,7 +222,7 @@ appOrderSystem.controller("cardapioController", function($scope,$http){
 	$scope.cardapios = [];
 	$scope.cardapio = {};
 	$scope.produtos = [];
-	$scope.produto = {}
+	$scope.produto = {};
 	
 	init = function () {		
 		carregarProdutos();
@@ -256,7 +260,7 @@ appOrderSystem.controller("cardapioController", function($scope,$http){
 				produtos.push($scope.produtos[i]);
 			} 
 		}
-		$scope.cardapio.produtos = produtos
+		$scope.cardapio.produtos = produtos;
 		$http({
 			  method: 'POST', url: 'http://localhost:8080/cardapio', data: $scope.cardapio
 			}).then(function successCallback(response) {

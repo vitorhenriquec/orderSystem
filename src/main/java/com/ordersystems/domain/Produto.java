@@ -26,7 +26,7 @@ public class Produto implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	
 	@Column(name="nome")
 	private String nome;
@@ -37,28 +37,22 @@ public class Produto implements Serializable{
 	@ManyToMany(mappedBy = "produtos")
 	private List<Pedido> pedidos = new ArrayList<Pedido>();
 	
-	@ManyToMany(cascade = {
-				CascadeType.PERSIST,
-                CascadeType.MERGE
-            })
-	@JoinTable(name = "produto_cardapio",
-    joinColumns = { @JoinColumn(name = "produto_id") },
-    inverseJoinColumns = { @JoinColumn(name = "cardapio_id") })
+	@ManyToMany(cascade = { CascadeType.ALL }, mappedBy = "produtos")
 	private List<Cardapio> cardapios;
 	
 	public Produto() {}
 
-	public Produto(int id, String nome, Double preco) {
+	public Produto(Integer id, String nome, Double preco) {
 		this.id = id;
 		this.nome = nome;
 		this.preco = preco;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
