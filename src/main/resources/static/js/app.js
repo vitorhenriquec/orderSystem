@@ -3,6 +3,7 @@ var appOrderSystem = angular.module("appOrderSystem",[]);
 appOrderSystem.controller("produtoController", function($scope,$http){
 	$scope.produtos = [];
 	$scope.produto = {};
+	$scope.error;
 		
 	carregarProdutos = function(){
 		$http({
@@ -17,12 +18,13 @@ appOrderSystem.controller("produtoController", function($scope,$http){
 	};
 	
 	$scope.salvarProduto = function(){
+		$scope.error = '';
 		$http({
 			  method: 'POST', url: 'http://localhost:8080/produto', data: $scope.produto
 			}).then(function successCallback(response) {
 				carregarProdutos();
 			  }, function errorCallback(response) {
-				  console.log(response.status);
+				  $scope.error = response.data.message;
 			  });
 	};
 	

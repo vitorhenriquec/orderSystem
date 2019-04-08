@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ordersystems.domain.Produto;
+import com.ordersystems.domain.Restaurante;
+import com.ordersystems.exception.FormatException;
+import com.ordersystems.exception.NegocioException;
 import com.ordersystems.service.ProdutoService;
 
 @RestController
@@ -24,9 +27,14 @@ public class ProdutoController {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST,value="/produto",consumes=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<?> adicionarProduto(@RequestBody Produto produto){
-		produtoService.adicionar(produto);
-		return new ResponseEntity<>(HttpStatus.CREATED);
+	public ResponseEntity<?> adicionarProduto(@RequestBody Produto produto) {
+			try {
+				produtoService.adicionar(produto);
+			} catch(FormatException e) {
+				e.printStackTrace();
+				return new ResponseEntity<Object>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT,value="/produto",produces = MediaType.APPLICATION_JSON_VALUE,consumes=MediaType.APPLICATION_JSON_UTF8_VALUE)
