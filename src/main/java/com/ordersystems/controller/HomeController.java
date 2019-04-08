@@ -42,4 +42,8 @@ public class HomeController {
 		return "mesa";
 	}
 	
+	@RequestMapping("/todosPedidos")
+	public String todosPedidos() {
+		return "todosPedidos";
+	}
 }

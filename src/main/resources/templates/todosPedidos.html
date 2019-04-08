@@ -9,7 +9,7 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular.min.js" type="text/javascript"></script>
 		<script src="./js/app.js"></script>
 	</head>
-	<body ng-controller="indexController">
+	<body ng-controller="pedidoController">
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
 			<a class="navbar-brand" href="/orderSystem/index.jsf">Order System</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,14 +29,43 @@
 			    <li class="nav-item">
 			      <a class="nav-link" href="/mesa">Mesas</a>
 			    </li>
-			    <li class="nav-item">
-			      <a class="nav-link" href="/cardapio">Cardápio</a>
-			    </li>
-			    <li class="nav-item">
-			      <a class="nav-link" href="/todosPedidos">Pedidos</a>
-			    </li>
 			  </ul>
 			</div>
 		</nav>
+		<div class="container mt-5">
+			<h3 class="bg-secondary text-white shadow rounded p-2">Estados de todos os pedidos</h3>
+			<div class="justify-content-center shadow rounded p-4 pt-5">
+				<table class="table table-striped">
+					<thead>
+						<th>Mesa</th>
+						<th>Estado</th>
+						<th></th>
+					</thead>
+					<tbody ng-repeat="ped in pedidos">
+						<tr>
+							<td>{{ped.mesa.denominacao}}</td>
+							<td>{{ped.estadoPedido}}</td>
+							<td>
+								<select id="{{ped.id}}">
+								  <option value="0" selected="selected">FEITO</option>
+								  <option value="1">ATENDIDO</option>
+								</select>
+								<button class="btn btn-primary" ng-click="alterar(ped)">Mudar</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<!--<div ng-repeat="ped in pedidos">
+					<div ng-if="ped.estadoPedido=='FEITO' || ped.estadoPedido=='ATENDIDO'">
+						<label class="control-label col-sm-6" for="{{ped.id}}"><h6>Mesa: {{ped.mesa.denominacao}}</h6><h6>Estado Atual: {{ped.estadoPedido}}</h6></label>
+						<select id="{{ped.id}}">
+						  <option value="0" selected="selected">FEITO</option>
+						  <option value="1">ATENDIDO</option>
+						</select>
+						<button class="btn btn-primary" ng-click="alterar(ped)">Mudar</button>
+					</div>
+				</div>-->
+			</div>
+		</div>
 	</body>
 </html>
