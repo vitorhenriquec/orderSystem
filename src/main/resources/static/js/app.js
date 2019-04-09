@@ -352,9 +352,6 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 	
 	init = function () {
 		carregarPedidos();
-		carregarMesas();
-		carregarCardapios();
-		getMesa();
 	};
 	
 	carregarPedidos = function(){
@@ -363,6 +360,8 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 			  url: 'http://localhost:8080/pedido'
 			}).then(function successCallback(response) {
 				$scope.pedidos = response.data;
+				
+				carregarMesas();
 			  }, function errorCallback(response) {
 				  console.log(response.status);
 			  });
@@ -374,6 +373,8 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 			  url: 'http://localhost:8080/mesa'
 			}).then(function successCallback(response) {
 				$scope.mesas = response.data;
+				getMesa();
+				carregarCardapios();
 			  }, function errorCallback(response) {
 				  console.log(response.status);
 			  });
@@ -398,7 +399,11 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 	};
 	
 	getPedidosMesa = function(idMesa){
-		console.log($scope.pedidos);
+		for(var i = 0; i < $scope.pedidos.length; i++){
+			if ($scope.pedidos[i].mesa.id === $scope.mesaPedido.id) {
+				$scope.pedidosMesa.push($scope.pedidos[i]);
+			}
+		}
 	};
 		
 	carregarCardapioAtivo = function(){
@@ -418,6 +423,25 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 				$scope.mesaPedido = mesa;
 				break;
 			}
+		}
+	};
+	
+	$scope.pagarConta = function() {
+		for(var i = 0; i < $scope.pedidosMesa.length; i++) {
+			var pedidoFinalizado = $scope.pedidosMesa[i];
+			pedidoFinalizado.estadoPedido = "PAGO";
+			
+			console.log(pedidoFinalizado);
+			
+			$http({
+				method: 'POST',
+				url: 'http://localhost:8080/mudarEstado',
+				data: pedidoFinalizado
+			}).then(function successCallback(response) {
+				console.log(response);
+			}, function errorCallback(response) {
+				console.log(response.status);
+			});
 		}
 	};
 	

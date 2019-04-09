@@ -47,11 +47,13 @@
 			<div class="justify-content-center shadow rounded p-4 pt-5">
 			<form ng-if="cardapioAtivo">
 				<div class="form-group" ng-repeat="pm in pedidosMesa">
-					pm.produtos;
+					<div class="form-group" ng-repeat="prod in pm.produtos">
+						{{prod.nome}} - R${{prod.preco}}
+					</div>
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
-						<input type="button" value="Fazer pedido" class="btn btn-primary" ng-click="pagarConta()"/>
+						<input type="button" value="Finalizar conta" class="btn btn-primary" ng-click="pagarConta()"/>
 					</div>
 				</div>
 			</form>
