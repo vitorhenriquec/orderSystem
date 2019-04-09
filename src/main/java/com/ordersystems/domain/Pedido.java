@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -36,6 +37,9 @@ public class Pedido implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "mesa_id")
 	private Mesa mesa;
+	
+	@Column(name="estado_pedido")
+	private EstadoPedido estadoPedido;
 	
 	public Pedido() {
 		
@@ -69,5 +73,13 @@ public class Pedido implements Serializable{
 	public void setMesa(Mesa mesa) {
 		this.mesa = mesa;
 	}
-		
+
+	public EstadoPedido getEstadoPedido() {
+		return estadoPedido;
+	}
+
+	public void setEstadoPedido(EstadoPedido estadoPedido) {
+		this.estadoPedido = estadoPedido;
+	}
+
 }
