@@ -448,7 +448,7 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 	
 	$scope.alterar = function(pedido){
 		pedido.estadoPedido = parseInt(document.getElementById(pedido.id.toString()).value);
-		console.log(pedido);
+		//console.log(pedido);
 		$http({
 			  method: 'POST', url: 'http://localhost:8080/mudarEstado', data: pedido
 			}).then(function successCallback(response) {

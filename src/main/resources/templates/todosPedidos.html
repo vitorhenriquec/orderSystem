@@ -47,7 +47,7 @@
 							<td>{{ped.estadoPedido}}</td>
 							<td>
 								<select id="{{ped.id}}">
-								  <option value="0" selected="selected">FEITO</option>
+								  <option value="0" selected="selected">AGUARDANDO</option>
 								  <option value="1">ATENDIDO</option>
 								</select>
 								<button class="btn btn-primary" ng-click="alterar(ped)">Mudar</button>
@@ -55,16 +55,6 @@
 						</tr>
 					</tbody>
 				</table>
-				<!--<div ng-repeat="ped in pedidos">
-					<div ng-if="ped.estadoPedido=='FEITO' || ped.estadoPedido=='ATENDIDO'">
-						<label class="control-label col-sm-6" for="{{ped.id}}"><h6>Mesa: {{ped.mesa.denominacao}}</h6><h6>Estado Atual: {{ped.estadoPedido}}</h6></label>
-						<select id="{{ped.id}}">
-						  <option value="0" selected="selected">FEITO</option>
-						  <option value="1">ATENDIDO</option>
-						</select>
-						<button class="btn btn-primary" ng-click="alterar(ped)">Mudar</button>
-					</div>
-				</div>-->
 			</div>
 		</div>
 	</body>
