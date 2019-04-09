@@ -37,6 +37,13 @@ public class PedidoController {
 	public ResponseEntity<?> buscarTodos(){
 		return new ResponseEntity<>(pedidoService.buscarTodos(),HttpStatus.OK);
 	}
+	
+	@RequestMapping(method=RequestMethod.GET,value="/pedido/mesa/{idMesa}",produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> buscarPedidosMesa(@PathVariable Integer idMesa){
+		List<Pedido> pedidosMesa = new ArrayList<Pedido>();
+		pedidosMesa = pedidoService.buscarPorMesaId(idMesa);
+		return new ResponseEntity<>(pedidosMesa,HttpStatus.OK);
+	}
 		
 	@RequestMapping(method=RequestMethod.POST,value="/pedido",consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> adicionarPedido(@RequestBody Pedido pedido){

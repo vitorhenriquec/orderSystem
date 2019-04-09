@@ -9,7 +9,7 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular.min.js" type="text/javascript"></script>
 		<script src="./js/app.js"></script>
 	</head>
-	<body ng-controller="mesaController">
+	<body ng-controller="pedidoController">
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
 			<a class="navbar-brand" href="/orderSystem/index.jsf">Order System</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,47 +32,31 @@
 			  </ul>
 			</div>
 		</nav>
-		<div class="container mt-5">
-			<h3 class="bg-secondary text-white shadow rounded p-2">Salvar Mesas</h3>
-			<div class="justify-content-center shadow rounded p-4 pt-5">
-				<form >
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="denominacaoMesa">Denominação das Mesas:</label>
-						<div class="col-sm-5">
-							<input type="text" class="form-control" id="denominacaoMesa" required="required" ng-model="mesa.denominacao"/>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-10">
-							<input type="button" value="Salvar" class="btn btn-primary" ng-click="salvarMesa()"/>
-							<input type="button" value="Cancelar" class="btn btn-primary" ng-click="cancelar()"/>
-						</div>
-					</div>
-				</form>
-			</div>
+		
+		<div ng-if="success">
+			<div class="alert alert-success alert-dismissible fade show" role="alert">
+			  <span>Pedido realizado com sucesso!</span>
+			  <button ng-if="success" type="button" class="close" data-dismiss="alert" aria-label="Close">
+			    <span aria-hidden="true">&times;</span>
+			  </button>
+			</div>	
 		</div>
+		
 		<div class="container mt-5">
-			<h3 class="bg-secondary text-white shadow rounded p-2">Denominação das Mesas:</h3>
+			<h3 class="bg-secondary text-white shadow rounded p-2">Conta</h3>
 			<div class="justify-content-center shadow rounded p-4 pt-5">
-				<table class="table table-striped">
-					<thead>
-					    <tr>
-					        <th>Denominação</th>
-					        <th></th>
-					    </tr>
-					</thead>
-					<tbody ng-repeat="mes in mesas">
-					    <tr>
-					       	<td>{{mes.denominacao}}</td>
-					        <td>
-					        	<button class="btn btn-primary" ng-click="removerMesa(mes.id)">Remover</button>
-					        	<button class="btn btn-primary" ng-click="alterarMesa(mes)">Alterar</button>
-					        	<a class="btn btn-primary" href="/pedido?idMesa={{mes.id}}">Fazer pedido</a>
-					        	<a class="btn btn-primary" href="/verConta?idMesa={{mes.id}}">Ver Conta</a>
-					        </td>
-					    </tr>
-					</tbody>
-				</table>
+			<form ng-if="cardapioAtivo">
+				<div class="form-group" ng-repeat="pm in pedidosMesa">
+					<div class="form-group" ng-repeat="prod in pm.produtos">
+						{{prod.nome}} - R${{prod.preco}}
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<input type="button" value="Finalizar conta" class="btn btn-primary" ng-click="pagarConta()"/>
+					</div>
+				</div>
+			</form>
 			</div>
 		</div>
 	</body>
