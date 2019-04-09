@@ -260,6 +260,19 @@ appOrderSystem.controller("cardapioController", function($scope,$http){
 	    	console.log(response.status);
 	    });
 	};
+	
+	carregarCardapioAtivo = function() {
+		$http({
+			method: 'GET',
+			url: 'http://localhost:8080/cardapio?ativo=true'
+		}).then(function successCallback(response) {
+			$scope.cardapio = response.data;
+			$scope.produtos = response.data.produtos;
+			console.log($scope.cardapios);
+	    }, function errorCallback(response) {
+	    	console.log(response.status);
+	    });
+	}
 		
 	carregarCardapios = function(){
 		$http({

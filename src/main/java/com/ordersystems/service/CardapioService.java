@@ -19,6 +19,10 @@ public class CardapioService {
 		return cardapioRepository.findAll();
 	}
 	
+	public Cardapio buscarAtivo() {
+		return cardapioRepository.findActive().get();
+	}
+	
 	public Optional<Cardapio> buscarPorId(int id) {
 		return cardapioRepository.findById(id);
 	}
