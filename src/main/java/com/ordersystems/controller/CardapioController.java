@@ -41,7 +41,7 @@ public class CardapioController {
 	public ResponseEntity<?> adicionarCardapio(@RequestBody Cardapio cardapio){
 		try{
 			
-			Restaurante restaurante = restauranteService.buscarPorId(cardapio.getRestaurante().getId()).get();
+			Restaurante restaurante = restauranteService.buscarTodos().get(0);
 			List<Produto> produtos = new ArrayList<>();
 			
 			for(Produto produto : cardapio.getProdutos()) {

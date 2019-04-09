@@ -32,6 +32,11 @@ public class HomeController {
 		return "cardapio";
 	}
 	
+	@RequestMapping("/lista_cardapio")
+	public String visualizarCardapio() {
+		return "lista_cardapio";
+	}
+	
 	@RequestMapping("/pedido")
 	public String pedido() {
 		return "pedido";
