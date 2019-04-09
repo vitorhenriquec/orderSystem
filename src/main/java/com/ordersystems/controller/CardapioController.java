@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ordersystems.domain.Cardapio;
 import com.ordersystems.domain.Produto;
 import com.ordersystems.domain.Restaurante;
+import com.ordersystems.exception.NegocioException;
 import com.ordersystems.service.CardapioService;
 import com.ordersystems.service.ProdutoService;
 import com.ordersystems.service.RestauranteService;
