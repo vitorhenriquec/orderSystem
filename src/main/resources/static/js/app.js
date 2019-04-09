@@ -268,7 +268,6 @@ appOrderSystem.controller("cardapioController", function($scope,$http){
 		}).then(function successCallback(response) {
 			$scope.cardapio = response.data;
 			$scope.produtos = response.data.produtos;
-			console.log($scope.cardapios);
 	    }, function errorCallback(response) {
 	    	console.log(response.status);
 	    });
@@ -347,12 +346,12 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 	$scope.mesas = [];
 	$scope.pedido = {};
 	$scope.mesaPedido = null;
-	$scope.produtos = [];
 	$scope.success = false;
+	$scope.cardapioAtivo = false;
 	
 	init = function () {
 		carregarMesas();
-		carregarProdutos();
+		//carregarProdutos();
 		carregarCardapios();
 		carregarPedidos();
 	}
@@ -367,6 +366,15 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 				  console.log(response.status);
 			  });
 	};
+	
+	carregarCardapioAtivo = function(){
+		for(var i = 0; i < $scope.cardapios.length; i++){
+			if($scope.cardapios[i].ativo){
+				$scope.cardapioAtivo = true;
+				break;
+			}
+		}
+	};
 			
 	carregarCardapios = function(){
 		$http({
@@ -374,22 +382,12 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 			  url: 'http://localhost:8080/cardapio'
 			}).then(function successCallback(response) {
 				$scope.cardapios = response.data;
+				carregarCardapioAtivo();
 			  }, function errorCallback(response) {
 				  console.log(response.status);
 			  });
 	};
-	
-	carregarProdutos = function(){
-		$http({
-			  method: 'GET',
-			  url: 'http://localhost:8080/produto'
-			}).then(function successCallback(response) {
-				$scope.produtos = response.data;
-			  }, function errorCallback(response) {
-				  console.log(response.status);
-			  });
-	};
-	
+		
 	carregarPedidos = function(){
 		$http({
 			  method: 'GET',
@@ -461,7 +459,7 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 	};
 	
 	$scope.cancelar = function(){
-		$scope.cardapio = {};
+		$scope.pedido = {};
 	};
 	
 	init();
