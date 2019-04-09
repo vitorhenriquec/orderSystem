@@ -30,7 +30,10 @@ public class Cardapio implements Serializable{
 	private String nome;
 	
 	@ManyToMany(cascade = {
-			CascadeType.ALL
+			CascadeType.MERGE,
+			CascadeType.DETACH,
+			CascadeType.PERSIST,
+			CascadeType.REFRESH
         })
 	@JoinTable(name = "cardapio_produto",
 	joinColumns = { @JoinColumn(name = "cardapio_id", referencedColumnName = "id") },
@@ -40,6 +43,9 @@ public class Cardapio implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "restaurante_id", nullable=false)
 	private Restaurante restaurante;
+	
+	@Column(name="ativo")
+	private boolean ativo = false;
 	
 	public Cardapio() {
 
@@ -75,6 +81,14 @@ public class Cardapio implements Serializable{
 
 	public void setRestaurante(Restaurante restaurante) {
 		this.restaurante = restaurante;
+	}
+
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
 	}
 
 }

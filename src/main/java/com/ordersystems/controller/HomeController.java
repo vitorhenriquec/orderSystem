@@ -1,6 +1,7 @@
 package com.ordersystems.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -33,7 +34,12 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/lista_cardapio")
-	public String visualizarCardapio() {
+	public String listarCardapio() {
+		return "lista_cardapio";
+	}
+	
+	@RequestMapping("/lista_cardapio/{id}")
+	public String visualizarCardapio(@PathVariable int id) {
 		return "lista_cardapio";
 	}
 	
