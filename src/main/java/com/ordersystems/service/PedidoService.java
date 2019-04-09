@@ -22,6 +22,10 @@ public class PedidoService {
 		return pedidoRepository.findById(id);
 	}
 	
+	public List<Pedido> buscarPorMesaId(int id){
+		return pedidoRepository.findByMesaId(id);
+	}
+	
 	public void adicionar(Pedido pedido) {
 		pedidoRepository.save(pedido);
 	}

@@ -24,6 +24,11 @@ public class MesaController {
 		return new ResponseEntity<>(mesaService.buscarTodos(),HttpStatus.OK);
 	}
 	
+	@RequestMapping(method=RequestMethod.GET,value="/mesa/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> buscarMesa(@PathVariable Integer id){
+		return new ResponseEntity<>(mesaService.buscarPorId(id),HttpStatus.OK);
+	}
+	
 	@RequestMapping(method=RequestMethod.POST,value="/mesa",consumes=MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<?> adicionarProduto(@RequestBody Mesa mesa){
 		mesaService.adicionar(mesa);

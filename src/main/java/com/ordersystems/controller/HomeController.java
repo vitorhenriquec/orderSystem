@@ -57,4 +57,9 @@ public class HomeController {
 	public String todosPedidos() {
 		return "todosPedidos";
 	}
+	
+	@RequestMapping("/verConta")
+	public String pagarConta() {
+		return "verConta";
+	}
 }
