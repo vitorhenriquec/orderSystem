@@ -348,6 +348,7 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 	$scope.pedido = {};
 	$scope.mesaPedido = null;
 	$scope.produtos = [];
+	$scope.success = false;
 	
 	init = function () {
 		carregarMesas();
@@ -436,6 +437,7 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 				  method: 'POST', url: 'http://localhost:8080/pedido', data: $scope.pedido
 				}).then(function successCallback(response) {
 					 console.log(response.status);
+					 $scope.success = true;
 				  }, function errorCallback(response) {
 					  console.log(response.status);
 				  });

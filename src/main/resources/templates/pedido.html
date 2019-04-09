@@ -32,6 +32,16 @@
 			  </ul>
 			</div>
 		</nav>
+		
+		<div ng-if="success">
+			<div class="alert alert-success alert-dismissible fade show" role="alert">
+			  <span>Pedido realizado com sucesso!</span>
+			  <button ng-if="success" type="button" class="close" data-dismiss="alert" aria-label="Close">
+			    <span aria-hidden="true">&times;</span>
+			  </button>
+			</div>	
+		</div>
+		
 		<div class="container mt-5">
 			<h3 class="bg-secondary text-white shadow rounded p-2">Fazer Pedido</h3>
 			<div class="justify-content-center shadow rounded p-4 pt-5">
