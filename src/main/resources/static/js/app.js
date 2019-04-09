@@ -403,6 +403,17 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 		}
 	};
 	
+	$scope.alterar = function(pedido){
+		pedido.estadoPedido = parseInt(document.getElementById(pedido.id.toString()).value);
+		console.log(pedido);
+		$http({
+			  method: 'POST', url: 'http://localhost:8080/mudarEstado', data: pedido
+			}).then(function successCallback(response) {
+				 console.log(response.status);
+			  }, function errorCallback(response) {
+				  console.log(response.status);
+		  });
+	};
 	
 	$scope.cancelar = function(){
 		$scope.cardapio = {};

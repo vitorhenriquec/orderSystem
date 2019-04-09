@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ordersystems.domain.EstadoPedido;
 import com.ordersystems.domain.Mesa;
 import com.ordersystems.domain.Pedido;
 import com.ordersystems.domain.Produto;
@@ -40,6 +41,7 @@ public class PedidoController {
 	@RequestMapping(method=RequestMethod.POST,value="/pedido",consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> adicionarPedido(@RequestBody Pedido pedido){
 		List<Produto> produtos = new ArrayList<Produto>();
+		pedido.setEstadoPedido(EstadoPedido.AGUARDANDO);
 		try{
 			Mesa mesa = mesaService.buscarPorId(pedido.getMesa().getId()).get();
 				
@@ -60,7 +62,25 @@ public class PedidoController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-		
+	
+	@RequestMapping(method=RequestMethod.POST,value="/mudarEstado",consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> mudarEstado(@RequestBody Pedido pedido){
+		try {
+			Pedido pedidoEncontrado = pedidoService.buscarPorId(pedido.getId()).get();
+			if(pedidoEncontrado != null) {
+				pedidoEncontrado.setEstadoPedido(pedido.getEstadoPedido());
+				pedidoService.salvar(pedidoEncontrado);
+				return new ResponseEntity<>(HttpStatus.CREATED);
+			}
+			else {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+		}
+		catch(Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 	@RequestMapping(method=RequestMethod.DELETE,value="/pedido/{id}")
 	public ResponseEntity<?> removerPedido(@PathVariable Integer id){
 		Pedido pedidoEncontrado = pedidoService.buscarPorId(id).get();
