@@ -225,9 +225,17 @@ appOrderSystem.controller("cardapioController", function($scope,$http){
 	$scope.produto = {};
 	
 	init = function () {		
-		carregarProdutos();
-		carregarCardapios();
-	}
+		var idCardapio = window.location.pathname.split('/')[2];
+		
+		if(idCardapio) { // buscar um cardapio específico
+			carregarCardapio(idCardapio);
+		} else if(window.location.pathname.includes('lista_cardapio')) { // buscar um cardapio ativo 
+			carregarCardapioAtivo();
+		} else {
+			carregarProdutos();
+			carregarCardapios();
+		}
+	};
 	
 	carregarProdutos = function(){
 		$http({
@@ -239,6 +247,32 @@ appOrderSystem.controller("cardapioController", function($scope,$http){
 		  console.log(response.status);
 	    });
 	};
+	
+	carregarCardapio = function(id) {
+		$http({
+			method: 'GET',
+			url: 'http://localhost:8080/cardapio/'+id
+		}).then(function successCallback(response) {
+			$scope.cardapio = response.data;
+			$scope.produtos = response.data.produtos;
+			console.log($scope.cardapios);
+	    }, function errorCallback(response) {
+	    	console.log(response.status);
+	    });
+	};
+	
+	carregarCardapioAtivo = function() {
+		$http({
+			method: 'GET',
+			url: 'http://localhost:8080/cardapio?ativo=true'
+		}).then(function successCallback(response) {
+			$scope.cardapio = response.data;
+			$scope.produtos = response.data.produtos;
+			console.log($scope.cardapios);
+	    }, function errorCallback(response) {
+	    	console.log(response.status);
+	    });
+	}
 		
 	carregarCardapios = function(){
 		$http({
@@ -264,10 +298,19 @@ appOrderSystem.controller("cardapioController", function($scope,$http){
 		$http({
 			  method: 'POST', url: 'http://localhost:8080/cardapio', data: $scope.cardapio
 			}).then(function successCallback(response) {
+				init();
 				console.log(response.status);
 			  }, function errorCallback(response) {
 				  console.log(response.status);
 			  });
+	};
+	
+	$scope.visualizarCardapio = function(id){
+		if(id) {
+			window.location.href = 'http://localhost:8080/lista_cardapio/'+id;
+		} else {
+			window.location.href = 'http://localhost:8080/lista_cardapio/';
+		}
 	};
 	
 	$scope.removerCardapio = function(id){

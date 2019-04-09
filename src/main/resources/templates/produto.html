@@ -17,13 +17,13 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNav">
 			  <ul class="navbar-nav">
-			    <li class="nav-item active">
+			    <li class="nav-item">
 			      <a class="nav-link" href="/restaurante">Restaurante</a>
 			    </li>
 			    <li class="nav-item">
 			      <a class="nav-link" href="/funcionario">Funcionários</a>
 			    </li>
-			    <li class="nav-item">
+			    <li class="nav-item active">
 			      <a class="nav-link" href="/produto">Produtos</a>
 			    </li>
 			    <li class="nav-item">
@@ -73,8 +73,8 @@
 					       	<td>{{pro.nome}}</td>
 					        <td>{{pro.preco}}</td>
 					        <td>
-					        	<button class="btn btn-primary" ng-click="removerProduto(pro.id)">Remover</button>
-					        	<button class="btn btn-primary" ng-click="alterarProduto(pro)">Alterar</button>
+					        	<button class="btn btn-primary float-right" ng-click="removerProduto(pro.id)">Remover</button>
+					        	<button class="btn btn-primary float-right mr-2" ng-click="alterarProduto(pro)">Alterar</button>
 					        </td>
 					    </tr>
 					</tbody>
