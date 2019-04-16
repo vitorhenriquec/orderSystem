@@ -24,10 +24,27 @@ public class RestauranteService {
 	}
 	
 	public void adicionar(Restaurante restaurante) throws NegocioException {
-		if(this.buscarTodos().size() == 0)	
-			this.salvar(restaurante);
-		else
+		if(this.buscarTodos().size() == 0)
 			throw new NegocioException("Já existe um restaurante cadastrado.");
+		
+		else if(restaurante.getNome() == null)
+			throw new NegocioException("O campo 'Nome' está vázio");
+		
+		else if(restaurante.getTelefone() == null)
+			throw new NegocioException("O campo 'Telefone' está vázio");
+		
+		else if(restaurante.getRua() == null)
+			throw new NegocioException("O campo 'Rua' está vázio");
+		
+		else if(restaurante.getBairro() == null)
+			throw new NegocioException("O campo 'Bairro' está vázio");
+		
+		else if(restaurante.getCidade() == null)
+			throw new NegocioException("O campo 'Cidade' está vázio");
+		
+		else
+			this.salvar(restaurante);
+			
 	}
 	
 	public void alterar(Restaurante restaurante) {
