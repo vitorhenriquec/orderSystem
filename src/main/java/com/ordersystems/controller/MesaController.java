@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ordersystems.domain.Mesa;
+import com.ordersystems.exception.NegocioException;
 import com.ordersystems.service.MesaService;
 
 @RestController
@@ -30,8 +31,13 @@ public class MesaController {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST,value="/mesa",consumes=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<?> adicionarProduto(@RequestBody Mesa mesa){
-		mesaService.adicionar(mesa);
+	public ResponseEntity<?> adicionarProduto(@RequestBody Mesa mesa) {
+		try {
+			mesaService.adicionar(mesa);
+		} catch (NegocioException e) {
+			e.printStackTrace();
+			return new ResponseEntity<Object>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	

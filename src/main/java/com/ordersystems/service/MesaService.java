@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ordersystems.domain.Mesa;
+import com.ordersystems.exception.NegocioException;
 import com.ordersystems.repository.MesaRepository;
 
 @Service
@@ -23,8 +24,11 @@ public class MesaService {
 		return mesaRepository.findById(id);
 	}
 	
-	public void adicionar(Mesa mesa) {
-		mesaRepository.save(mesa);
+	public void adicionar(Mesa mesa) throws NegocioException{
+		if(mesa.getDenominacao() == null)	
+			throw new NegocioException("O campo 'Denominação das Mesas' está vázio");
+			
+		this.salvar(mesa);
 	}
 	
 	public void salvar(Mesa mesa) {
