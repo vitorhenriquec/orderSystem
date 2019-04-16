@@ -23,7 +23,7 @@ public class ProdutoService {
 	}
 	
 	public void adicionar(Produto produto) throws NegocioException {
-		if(produto.getNome().isEmpty())	
+		if(produto.getNome() == null)	
 			throw new NegocioException("Campo de entrada vázio");
 		else
 			this.salvar(produto);
