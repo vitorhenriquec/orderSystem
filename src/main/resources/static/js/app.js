@@ -116,6 +116,7 @@ appOrderSystem.controller("mesaController", function($scope,$http){
 	
 	$scope.mesas = [];
 	$scope.mesa = {};
+	$scope.erro;
 		
 	carregarMesas = function(){
 		$http({
@@ -129,12 +130,13 @@ appOrderSystem.controller("mesaController", function($scope,$http){
 	};
 	
 	$scope.salvarMesa = function(){
+		$scope.erro = "";
 		$http({
 			  method: 'POST', url: 'http://localhost:8080/mesa', data: $scope.mesa
 			}).then(function successCallback(response) {
 				carregarMesas();
 			  }, function errorCallback(response) {
-				  console.log(response.status);
+				$scope.error = response.data.message;
 			  });
 	};
 	
