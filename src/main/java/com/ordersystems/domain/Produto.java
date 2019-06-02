@@ -6,19 +6,17 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.MappedSuperclass;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@Entity
-@Table(name = "produto")
+@MappedSuperclass
 @JsonIgnoreProperties({"cardapios","pedido"})
-public class Produto implements Serializable{
+public abstract class Produto implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -40,8 +38,7 @@ public class Produto implements Serializable{
 	
 	public Produto() {}
 
-	public Produto(Integer id, String nome, Double preco) {
-		this.id = id;
+	public Produto(String nome, Double preco) {
 		this.nome = nome;
 		this.preco = preco;
 	}
