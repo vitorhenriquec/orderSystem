@@ -1,5 +1,7 @@
 package com.ordersystems.domain;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 
 @Entity
@@ -9,12 +11,14 @@ public class Bebida extends Produto{
 
 	private String marca;
 	
-	private double Litos;
+	private double litros;
+	
+	private Date validade;
 
 	public Bebida(String nome, double preco,String marca, double litos) {
 		super(nome, preco);
 		this.marca = marca;
-		Litos = litos;
+		this.litros = litos;
 	}
 
 	public String getMarca() {
@@ -26,11 +30,20 @@ public class Bebida extends Produto{
 	}
 
 	public double getLitos() {
-		return Litos;
+		return litros;
 	}
 
-	public void setLitos(double litos) {
-		Litos = litos;
+	public void setLitos(double litros) {
+		this.litros = litros;
 	}
+
+	public Date getValidade() {
+		return validade;
+	}
+
+	public void setValidade(Date validade) {
+		this.validade = validade;
+	}
+	
 	
 }
