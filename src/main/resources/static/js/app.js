@@ -353,7 +353,7 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 	$scope.success = false;
 	$scope.cardapioAtivo = false;
 	$scope.pedidosMesa = [];
-	
+		
 	init = function () {
 		carregarPedidos();
 	};
@@ -434,9 +434,7 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 		for(var i = 0; i < $scope.pedidosMesa.length; i++) {
 			var pedidoFinalizado = $scope.pedidosMesa[i];
 			pedidoFinalizado.estadoPedido = "PAGO";
-			
-			console.log(pedidoFinalizado);
-			
+						
 			$http({
 				method: 'POST',
 				url: 'http://localhost:8080/mudarEstado',
@@ -445,8 +443,19 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 				console.log(response);
 			}, function errorCallback(response) {
 				console.log(response.status);
-			});
+			});			
 		}
+		
+		$http({
+			method: 'POST',
+			url: 'http://localhost:8080/desconto',
+			data: $scope.pedidosMesa
+		}).then(function successCallback(response) {
+			var mensagemUsuario = "Total a pagar: R$ " + (response.data).toString();
+			alert(mensagemUsuario);
+		}, function errorCallback(response) {
+			console.log(response.status);
+		});
 	};
 	
 	$scope.fazerPedido = function(){

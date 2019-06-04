@@ -1,6 +1,5 @@
 package com.ordersystems.controller;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +20,9 @@ import com.ordersystems.domain.Produto;
 import com.ordersystems.service.MesaService;
 import com.ordersystems.service.PedidoService;
 import com.ordersystems.service.ProdutoService;
+import com.ordersystems.service.RegraPromocao;
+import com.ordersystems.service.RegraPromocaoProduto;
+import com.ordersystems.service.RegraPromocaoValor;
 
 @RestController
 public class PedidoController {
@@ -32,6 +34,7 @@ public class PedidoController {
 	
 	@Autowired
 	MesaService mesaService;
+	
 		
 	@RequestMapping(method=RequestMethod.GET,value="/pedido",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> buscarTodos(){
@@ -100,4 +103,30 @@ public class PedidoController {
 		}
 	}
 	
+	@RequestMapping(method=RequestMethod.POST,value="/desconto",consumes = MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> verificarDesconto(@RequestBody List<Pedido> pedidos){
+		RegraPromocao regra;
+		double valorPedido = 0.0;
+		int quantProdutos = 0;
+		for(Pedido pedido:pedidos) {
+			Pedido pedidoEncontrado = pedidoService.buscarPorId(pedido.getId()).get();
+			quantProdutos += pedidoEncontrado.getProdutos().size();
+			for(Produto p:pedidoEncontrado.getProdutos()) {
+				valorPedido+=p.getPreco();
+			}
+		
+		}
+		if(valorPedido > 50.0) {
+			regra = new RegraPromocaoValor();
+			return new ResponseEntity<>(regra.calcularDesconto(valorPedido),HttpStatus.OK);
+		}
+		else {
+			if(quantProdutos > 3) {
+				regra = new RegraPromocaoProduto();
+				return new ResponseEntity<>(regra.calcularDesconto(valorPedido),HttpStatus.OK);
+			}
+		}
+		return new ResponseEntity<>(valorPedido,HttpStatus.OK);	
+		
+	}
 }

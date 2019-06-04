@@ -41,13 +41,16 @@ public class Pedido implements Serializable{
 	@Column(name="estado_pedido")
 	private EstadoPedido estadoPedido;
 	
+	private double valorFinal;
+	
 	public Pedido() {
-		
+		this.valorFinal = 0.0;
 	}
 	
 	public Pedido(int id, List<Produto> produtos) {
 		this.id = id;
 		this.produtos = produtos;
+		this.valorFinal = 0.0;
 	}
 
 	public int getId() {
@@ -81,5 +84,14 @@ public class Pedido implements Serializable{
 	public void setEstadoPedido(EstadoPedido estadoPedido) {
 		this.estadoPedido = estadoPedido;
 	}
+
+	public double getValorFinal() {
+		return valorFinal;
+	}
+
+	public void setValorFinal(double valorFinal) {
+		this.valorFinal = valorFinal;
+	}
+	
 
 }
