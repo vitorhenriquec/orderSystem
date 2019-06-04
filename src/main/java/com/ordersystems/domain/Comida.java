@@ -1,19 +1,23 @@
 package com.ordersystems.domain;
 
-import java.util.Date;
+import java.io.Serializable;
 
 import javax.persistence.Entity;
 
 @Entity
-public class Comida extends Produto{
+public class Comida extends Produto implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
 	private double peso;
 	
-	private Date validade;
+	private String validade;
+	
+	public Comida() {
+		
+	}
 
-	public Comida(String nome, double preco,double peso, Date validade) {
+	public Comida(String nome, double preco,double peso, String validade) {
 		super(nome,preco);
 		this.peso = peso;
 		this.validade = validade;
@@ -27,11 +31,11 @@ public class Comida extends Produto{
 		this.peso = peso;
 	}
 
-	public Date getValidade() {
+	public String getValidade() {
 		return validade;
 	}
 
-	public void setValidade(Date validade) {
+	public void setValidade(String validade) {
 		this.validade = validade;
 	}
 	

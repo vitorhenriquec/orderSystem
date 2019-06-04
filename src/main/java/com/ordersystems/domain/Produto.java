@@ -1,6 +1,5 @@
 package com.ordersystems.domain;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,14 +13,13 @@ import javax.persistence.Inheritance;
 import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 @Entity
 @Inheritance
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
 @JsonIgnoreProperties({"cardapios","pedido"})
-public abstract class Produto implements Serializable{
-
-	private static final long serialVersionUID = 1L;
-	
+public abstract class Produto {	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;

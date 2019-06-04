@@ -25,10 +25,12 @@ public class MesaService {
 	}
 	
 	public void adicionar(Mesa mesa) throws NegocioException{
-		if(mesa.getDenominacao() == null)	
+		if(mesa.getDenominacao() == null) {	
 			throw new NegocioException("O campo 'Denominação das Mesas' está vázio");
-			
-		this.salvar(mesa);
+		}
+		else {
+			this.salvar(mesa);
+		}
 	}
 	
 	public void salvar(Mesa mesa) {

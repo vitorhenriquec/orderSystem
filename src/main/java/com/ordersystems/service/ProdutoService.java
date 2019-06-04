@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.ordersystems.domain.Produto;
 import com.ordersystems.exception.NegocioException;
 import com.ordersystems.repository.ProdutoRepository;
@@ -23,18 +24,17 @@ public class ProdutoService {
 	}
 	
 	public void adicionar(Produto produto) throws NegocioException {
-		if(produto.getNome() == null)	
+		if(produto.getNome() == null) {	
 			throw new NegocioException("O campo 'Nome do Produto' está vázio");
-		else if(produto.getPreco() == null)
+		}
+		else if(produto.getPreco() == null) {
 			throw new NegocioException("Campo de entrada vázio");
+		}
+		else {
+			produtoRepository.save(produto);
+		}
+	}
 		
-		this.salvar(produto);
-			
-	}
-	
-	public void salvar(Produto produto) {
-		produtoRepository.save(produto);
-	}
 	
 	public void remover(int id) {
 		produtoRepository.deleteById(id);

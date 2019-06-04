@@ -1,11 +1,11 @@
 package com.ordersystems.domain;
 
-import java.util.Date;
+import java.io.Serializable;
 
 import javax.persistence.Entity;
 
 @Entity
-public class Bebida extends Produto{
+public class Bebida extends Produto implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
@@ -13,12 +13,18 @@ public class Bebida extends Produto{
 	
 	private double litros;
 	
-	private Date validade;
+	private String validade;
+	
+	public Bebida() {
+		
+	}
 
-	public Bebida(String nome, double preco,String marca, double litos) {
-		super(nome, preco);
+	public Bebida(String nome, double preco,String marca, double litros,String validade) {
+		this.setNome(nome);
+		this.setPreco(preco);
 		this.marca = marca;
-		this.litros = litos;
+		this.litros = litros;
+		this.validade = validade;
 	}
 
 	public String getMarca() {
@@ -37,11 +43,11 @@ public class Bebida extends Produto{
 		this.litros = litros;
 	}
 
-	public Date getValidade() {
+	public String getValidade() {
 		return validade;
 	}
 
-	public void setValidade(Date validade) {
+	public void setValidade(String validade) {
 		this.validade = validade;
 	}
 	
