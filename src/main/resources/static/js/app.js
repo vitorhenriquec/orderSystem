@@ -79,8 +79,6 @@ appOrderSystem.controller("restauranteController", function($scope,$http){
 			}).then(function successCallback(response) {
 				carregarRestaurante();
 			  }, function errorCallback(response) {
-//				  console.log(response);
-//				  alert(response.data.message);
 				  $scope.error = response.data.message;
 			  });
 	};
@@ -353,6 +351,7 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 	$scope.success = false;
 	$scope.cardapioAtivo = false;
 	$scope.pedidosMesa = [];
+	$scope.dadosPagamento = {};
 		
 	init = function () {
 		carregarPedidos();
@@ -404,7 +403,8 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 	
 	getPedidosMesa = function(idMesa){
 		for(var i = 0; i < $scope.pedidos.length; i++){
-			if ($scope.pedidos[i].mesa.id === $scope.mesaPedido.id) {
+			var estadoPedido = $scope.pedidos[i]['estadoPedido'];
+			if ($scope.pedidos[i].mesa.id === $scope.mesaPedido.id && estadoPedido == "AGUARDANDO") {
 				$scope.pedidosMesa.push($scope.pedidos[i]);
 			}
 		}
@@ -440,22 +440,37 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 				url: 'http://localhost:8080/mudarEstado',
 				data: pedidoFinalizado
 			}).then(function successCallback(response) {
-				console.log(response);
+				console.log(response.status);
 			}, function errorCallback(response) {
 				console.log(response.status);
 			});			
 		}
+		if($scope.pedidosMesa.length > 0){
+			$http({
+				method: 'POST',
+				url: 'http://localhost:8080/desconto',
+				data: $scope.pedidosMesa
+			}).then(function successCallback(response) {
+				
+				var dadosPagamento = response.data;
+				console.log(dadosPagamento);
+				var mensagemPagamento = "Compra finalizada!\n ";
+				
+				if("valorTotal" in dadosPagamento){
+					mensagemPagamento += dadosPagamento["mensagem"] + " \n Valor Total do Pedido: " + dadosPagamento["valorTotal"] + "\n Total a pagar: " + dadosPagamento["valorFinal"];
+				}
+				else{
+					mensagemPagamento = "Total a pagar: " + dadosPagamento["valorFinal"];
+				}
+				alert(mensagemPagamento);			
+			}, function errorCallback(response) {
+				console.log(response.status);
+			});
+		}
+		else{
+			alert("Não há pedido em andamento para essa mesa.");
+		}
 		
-		$http({
-			method: 'POST',
-			url: 'http://localhost:8080/desconto',
-			data: $scope.pedidosMesa
-		}).then(function successCallback(response) {
-			var mensagemUsuario = "Total a pagar: R$ " + (response.data).toString();
-			alert(mensagemUsuario);
-		}, function errorCallback(response) {
-			console.log(response.status);
-		});
 	};
 	
 	$scope.fazerPedido = function(){

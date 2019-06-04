@@ -1,7 +1,9 @@
 package com.ordersystems.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -116,17 +118,21 @@ public class PedidoController {
 			}
 		
 		}
+		
 		if(valorPedido > 50.0) {
 			regra = new RegraPromocaoValor();
-			return new ResponseEntity<>(regra.calcularDesconto(valorPedido),HttpStatus.OK);
+			return new ResponseEntity<>(regra.mensagem(valorPedido),HttpStatus.OK);
 		}
 		else {
-			if(quantProdutos > 3) {
+			if(quantProdutos >= 3) {
 				regra = new RegraPromocaoProduto();
-				return new ResponseEntity<>(regra.calcularDesconto(valorPedido),HttpStatus.OK);
+				return new ResponseEntity<>(regra.mensagem(valorPedido),HttpStatus.OK);
 			}
+			Map<String, String> pedidoSemPromocao = new HashMap<String, String>();
+			pedidoSemPromocao.put("valorFinal",String.valueOf(valorPedido));
+			return new ResponseEntity<>(pedidoSemPromocao,HttpStatus.OK);	
 		}
-		return new ResponseEntity<>(valorPedido,HttpStatus.OK);	
+		
 		
 	}
 }
