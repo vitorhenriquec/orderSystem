@@ -37,7 +37,8 @@ public class PedidoController {
 	@Autowired
 	MesaService mesaService;
 	
-		
+	RegraPromocao regra;
+	
 	@RequestMapping(method=RequestMethod.GET,value="/pedido",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> buscarTodos(){
 		return new ResponseEntity<>(pedidoService.buscarTodos(),HttpStatus.OK);
@@ -107,7 +108,7 @@ public class PedidoController {
 	
 	@RequestMapping(method=RequestMethod.POST,value="/desconto",consumes = MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> verificarDesconto(@RequestBody List<Pedido> pedidos){
-		RegraPromocao regra;
+
 		double valorPedido = 0.0;
 		int quantProdutos = 0;
 		for(Pedido pedido:pedidos) {
