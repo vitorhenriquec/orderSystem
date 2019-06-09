@@ -1,9 +1,7 @@
 package com.ordersystems.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,9 +20,6 @@ import com.ordersystems.domain.Produto;
 import com.ordersystems.service.MesaService;
 import com.ordersystems.service.PedidoService;
 import com.ordersystems.service.ProdutoService;
-import com.ordersystems.service.RegraPromocao;
-import com.ordersystems.service.RegraPromocaoProduto;
-import com.ordersystems.service.RegraPromocaoValor;
 
 @RestController
 public class PedidoController {
@@ -36,8 +31,7 @@ public class PedidoController {
 	
 	@Autowired
 	MesaService mesaService;
-	
-	RegraPromocao regra;
+
 	
 	@RequestMapping(method=RequestMethod.GET,value="/pedido",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> buscarTodos(){
@@ -108,32 +102,10 @@ public class PedidoController {
 	
 	@RequestMapping(method=RequestMethod.POST,value="/desconto",consumes = MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> verificarDesconto(@RequestBody List<Pedido> pedidos){
-
-		double valorPedido = 0.0;
-		int quantProdutos = 0;
-		for(Pedido pedido:pedidos) {
-			Pedido pedidoEncontrado = pedidoService.buscarPorId(pedido.getId()).get();
-			quantProdutos += pedidoEncontrado.getProdutos().size();
-			for(Produto p:pedidoEncontrado.getProdutos()) {
-				valorPedido+=p.getPreco();
-			}
-		
+		try {
+			return new ResponseEntity<>(pedidoService.procurarPromocao(pedidos),HttpStatus.OK);
+		}catch(Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
-		if(valorPedido > 50.0) {
-			regra = new RegraPromocaoValor();
-			return new ResponseEntity<>(regra.mensagem(valorPedido),HttpStatus.OK);
-		}
-		else {
-			if(quantProdutos >= 3) {
-				regra = new RegraPromocaoProduto();
-				return new ResponseEntity<>(regra.mensagem(valorPedido),HttpStatus.OK);
-			}
-			Map<String, String> pedidoSemPromocao = new HashMap<String, String>();
-			pedidoSemPromocao.put("valorFinal",String.valueOf(valorPedido));
-			return new ResponseEntity<>(pedidoSemPromocao,HttpStatus.OK);	
-		}
-		
-		
 	}
 }

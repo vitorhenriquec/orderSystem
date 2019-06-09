@@ -408,6 +408,7 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 				$scope.pedidosMesa.push($scope.pedidos[i]);
 			}
 		}
+		getPrecoPromocao();
 	};
 		
 	carregarCardapioAtivo = function(){
@@ -445,33 +446,31 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 				console.log(response.status);
 			});			
 		}
-		if($scope.pedidosMesa.length > 0){
-			$http({
-				method: 'POST',
-				url: 'http://localhost:8080/desconto',
-				data: $scope.pedidosMesa
-			}).then(function successCallback(response) {
-				
-				var dadosPagamento = response.data;
-				console.log(dadosPagamento);
-				var mensagemPagamento = "Compra finalizada!\n ";
-				
-				if("valorTotal" in dadosPagamento){
-					mensagemPagamento += dadosPagamento["mensagem"] + " \n Valor Total do Pedido: " + dadosPagamento["valorTotal"] + "\n Total a pagar: " + dadosPagamento["valorFinal"];
-				}
-				else{
-					mensagemPagamento = "Total a pagar: " + dadosPagamento["valorFinal"];
-				}
-				alert(mensagemPagamento);			
-			}, function errorCallback(response) {
-				console.log(response.status);
-			});
-		}
-		else{
-			alert("Não há pedido em andamento para essa mesa.");
-		}
-		
 	};
+	
+	getPrecoPromocao = function(){
+		$http({
+			method: 'POST',
+			url: 'http://localhost:8080/desconto',
+			data: $scope.pedidosMesa
+		}).then(function successCallback(response) {
+			
+			$scope.dadosPagamento = response.data;
+			console.log($scope.dadosPagamento);
+			/*console.log(dadosPagamento);
+			var mensagemPagamento = "Compra finalizada!\n ";
+			
+			if("valorTotal" in dadosPagamento){
+				mensagemPagamento += dadosPagamento["mensagem"] + " \n Valor Total do Pedido: " + dadosPagamento["valorTotal"] + "\n Total a pagar: " + dadosPagamento["valorFinal"];
+			}
+			else{
+				mensagemPagamento = "Total a pagar: " + dadosPagamento["valorFinal"];
+			}
+			alert(mensagemPagamento);*/			
+		}, function errorCallback(response) {
+			console.log(response.status);
+		});
+	}
 	
 	$scope.fazerPedido = function(){
 		getMesa();

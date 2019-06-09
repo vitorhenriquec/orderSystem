@@ -4,5 +4,5 @@ import java.util.Map;
 
 public interface RegraPromocao {
 	public double calcularDesconto(double valorPedido);
-	public Map<String,String> mensagem(double valorPedido);
+	public Map<String,String> gerarInformacao(double valorPedido);
 }

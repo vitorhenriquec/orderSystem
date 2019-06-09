@@ -11,7 +11,7 @@ public class RegraPromocaoValor implements RegraPromocao{
 	}
 
 	@Override
-	public Map<String, String> mensagem(double valorPedido) {
+	public Map<String, String> gerarInformacao(double valorPedido) {
 		Map<String, String> dict = new HashMap<String, String>();
 		String mensagem= "Promoção dos 10%: O valor total da compra foi maior do que R$ 50 e teve 10% de desconto";
 		String valorTotal = String.valueOf(valorPedido);
