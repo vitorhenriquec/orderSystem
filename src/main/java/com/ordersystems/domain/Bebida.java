@@ -1,13 +1,9 @@
 package com.ordersystems.domain;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
 
 @Entity
-public class Bebida extends Produto implements Serializable{
-
-	private static final long serialVersionUID = 1L;
+public class Bebida extends Produto{
 
 	private String marca;
 	

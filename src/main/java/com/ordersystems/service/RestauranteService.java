@@ -24,7 +24,7 @@ public class RestauranteService {
 	}
 	
 	public void adicionar(Restaurante restaurante) throws NegocioException {
-		if(this.buscarTodos().size() == 0)
+		if(this.buscarTodos().size() != 0)
 			throw new NegocioException("Já existe um restaurante cadastrado.");
 		
 		else if(restaurante.getNome() == null)

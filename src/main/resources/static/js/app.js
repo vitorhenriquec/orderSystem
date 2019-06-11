@@ -20,7 +20,7 @@ appOrderSystem.controller("produtoController", function($scope,$http){
 	$scope.salvarProduto = function(){
 		$scope.error = '';
 		$http({
-			  method: 'POST', url: 'http://localhost:8080/produto', data: $scope.produto
+			  method: 'POST', url: 'http://localhost:8080/bebida', data: $scope.produto
 			}).then(function successCallback(response) {
 				carregarProdutos();
 			  }, function errorCallback(response) {
@@ -51,7 +51,6 @@ appOrderSystem.controller("produtoController", function($scope,$http){
 	$scope.cancelar = function(){
 		$scope.produto = {};
 	}; 
-	
 	carregarProdutos();
 });
 

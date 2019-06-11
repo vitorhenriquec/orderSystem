@@ -13,16 +13,14 @@ import javax.persistence.Inheritance;
 import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 @Entity
 @Inheritance
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
 @JsonIgnoreProperties({"cardapios","pedido"})
 public abstract class Produto {	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
+	private int id;
 	
 	@Column(name="nome")
 	private String nome;
@@ -36,18 +34,11 @@ public abstract class Produto {
 	@ManyToMany(cascade = { CascadeType.ALL }, mappedBy = "produtos")
 	private List<Cardapio> cardapios;
 	
-	public Produto() {}
-
-	public Produto(String nome, Double preco) {
-		this.nome = nome;
-		this.preco = preco;
-	}
-
-	public Integer getId() {
-		return id;
+	public int getId() {
+		return this.id;
 	}
 	
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
