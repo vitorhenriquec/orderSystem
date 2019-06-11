@@ -23,6 +23,10 @@ public class ClienteService {
 		return clienteRepository.findById(id);
 	}
 	
+	public Optional<Cliente> buscarPorCpf(String cpf) {
+		return clienteRepository.findByCpf(cpf);
+	}
+	
 	public void adicionar(Cliente cliente) {
 		clienteRepository.save(cliente);
 	}

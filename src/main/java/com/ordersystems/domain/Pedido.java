@@ -38,6 +38,10 @@ public class Pedido implements Serializable{
 	@JoinColumn(name = "mesa_id")
 	private Mesa mesa;
 	
+	@ManyToOne
+	@JoinColumn(name = "cliente_id")
+	private Cliente cliente;
+	
 	@Column(name="estado_pedido")
 	private EstadoPedido estadoPedido;
 	
@@ -92,6 +96,13 @@ public class Pedido implements Serializable{
 	public void setValorFinal(double valorFinal) {
 		this.valorFinal = valorFinal;
 	}
-	
 
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+	
 }

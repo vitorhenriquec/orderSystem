@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ordersystems.domain.Cliente;
 import com.ordersystems.domain.EstadoPedido;
 import com.ordersystems.domain.Mesa;
 import com.ordersystems.domain.Pedido;
 import com.ordersystems.domain.Produto;
+import com.ordersystems.service.ClienteService;
 import com.ordersystems.service.MesaService;
 import com.ordersystems.service.PedidoService;
 import com.ordersystems.service.ProdutoService;
@@ -31,7 +33,10 @@ public class PedidoController {
 	
 	@Autowired
 	MesaService mesaService;
-
+	
+	@Autowired
+	ClienteService clienteService;
+	
 	
 	@RequestMapping(method=RequestMethod.GET,value="/pedido",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> buscarTodos(){
@@ -70,12 +75,19 @@ public class PedidoController {
 		}
 	}
 	
-	@RequestMapping(method=RequestMethod.POST,value="/mudarEstado",consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> mudarEstado(@RequestBody Pedido pedido){
+	@RequestMapping(method=RequestMethod.POST,value="/mudarEstado/{cpf}",consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> mudarEstado(@RequestBody Pedido pedido, @PathVariable String cpf){
 		try {
 			Pedido pedidoEncontrado = pedidoService.buscarPorId(pedido.getId()).get();
 			if(pedidoEncontrado != null) {
 				pedidoEncontrado.setEstadoPedido(pedido.getEstadoPedido());
+				Cliente c = clienteService.buscarPorCpf(cpf).get();
+				if(c != null) {
+					c = new Cliente();
+					c.setCpf(cpf);
+				}
+				c.setNumCompras(c.getNumCompras()+1);
+				clienteService.salvar(c);
 				pedidoService.salvar(pedidoEncontrado);
 				return new ResponseEntity<>(HttpStatus.CREATED);
 			}
