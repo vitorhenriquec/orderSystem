@@ -8,6 +8,24 @@
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"></link>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular.min.js" type="text/javascript"></script>
 		<script src="./js/app.js"></script>
+		<script>
+			var innerHTML = document.getElementById("produto").innerHTML;
+			function formBebida(){
+				innerHTML.textContent = "";
+				//while (innerHTML.firstChild) innerHTML.removeChild(innerHTML.firstChild);
+				var htmlFormPadrao = "<div class='form-group'><label class='control-label col-sm-2' for='nomeProduto'>Nome do produto:</label><div class='col-sm-5'><input type='text' class='form-control' id='nomeProduto' required='required' ng-model='produto.nome'/></div></div><div class='form-group'><label class='control-label col-sm-2' for='precoProduto'>Preço do produto:</label><div class='col-sm-2'><input type='text' class='form-control' id='precoProduto' required='required' ng-model='produto.preco'/></div></div>"+ "<div class='form-group'><label class='control-label col-sm-2' for='marcaProduto'>Marca:</label><div class='col-sm-2'><input type='text' class='form-control' id='marcaProduto' required='required' ng-model='produto.marca'/></div></div><div class='form-group'><label class='control-label col-sm-2' for='litroProduto'>Litro:</label>"
+					+ "<div class='col-sm-2'><input type='text' class='form-control' id='litroProduto' required='required' ng-model='produto.litros'/></div></div><div class='form-group'><label class='control-label col-sm-2' for='precoProduto'>Validade:</label><div class='col-sm-2'><input type='text' class='form-control' id='precoProduto' required='required' ng-model='produto.validade'/></div></div>";
+				innerHTML = htmlFormPadrao;
+			}
+
+			function formComida() {
+				innerHTML.textContent = "";
+				//while (innerHTML.firstChild) innerHTML.removeChild(innerHTML.firstChild);
+				var htmlFormPadrao = "<div class='form-group'><label class='control-label col-sm-2' for='nomeProduto'>Nome do produto:</label><div class='col-sm-5'><input type='text' class='form-control' id='nomeProduto' required='required' ng-model='produto.nome'/></div></div><div class='form-group'><label class='control-label col-sm-2' for='precoProduto'>Preço do produto:</label><div class='col-sm-2'><input type='text' class='form-control' id='precoProduto' required='required' ng-model='produto.preco'/></div></div>"+"<div class='form-group'><label class='control-label col-sm-2' for='pesoProduto'>Peso:</label><div class='col-sm-2'><input type='text' class='form-control' id='pesoProduto' required='required' ng-model='produto.peso'/></div></div>"
+					//+ "<div class='form-group'><label class='control-label col-sm-2' for='validadeProduto'>Validade:</label><div class='col-sm-2'><input type='text' class='form-control' id='validadeProduto' required='required' ng-model='produto.validade'/></div></div>";
+				innerHTML = htmlFormPadrao;
+			}
+		</script>
 	</head>
 	<body ng-controller="produtoController">
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -49,37 +67,10 @@
 		<div class="container mt-5">
 			<h3 class="bg-secondary text-white shadow rounded p-2">Salvar Produto</h3>
 			<div class="justify-content-center shadow rounded p-4 pt-5">
-				<form >
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="nomeProduto">Nome do produto:</label>
-						<div class="col-sm-5">
-							<input type="text" class="form-control" id="nomeProduto" required="required" ng-model="produto.nome"/>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="precoProduto">Preço do produto:</label>
-						<div class="col-sm-2">
-							<input type="text" class="form-control" id="precoProduto" required="required" ng-model="produto.preco"/>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="precoProduto">Marca:</label>
-						<div class="col-sm-2">
-							<input type="text" class="form-control" id="precoProduto" required="required" ng-model="produto.marca"/>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="precoProduto">Litro:</label>
-						<div class="col-sm-2">
-							<input type="text" class="form-control" id="precoProduto" required="required" ng-model="produto.litros"/>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="precoProduto">Validade:</label>
-						<div class="col-sm-2">
-							<input type="text" class="form-control" id="precoProduto" required="required" ng-model="produto.validade"/>
-						</div>
-					</div>
+				<a onclick="formBebida()">Bebida</a>
+				<a onclick="formComida()">Comida</a>
+				</br>
+				<form id="produto">
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
 							<input type="button" value="Salvar" class="btn btn-primary" ng-click="salvarProduto()"/>
@@ -115,3 +106,4 @@
 		</div>
 	</body>
 </html>
+

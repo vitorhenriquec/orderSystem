@@ -18,14 +18,27 @@ appOrderSystem.controller("produtoController", function($scope,$http){
 	};
 	
 	$scope.salvarProduto = function(){
-		$scope.error = '';
-		$http({
-			  method: 'POST', url: 'http://localhost:8080/bebida', data: $scope.produto
-			}).then(function successCallback(response) {
-				carregarProdutos();
-			  }, function errorCallback(response) {
-				  $scope.error = response.data.message;
-			  });
+		if("litros" in produto){
+			$scope.error = '';
+			$http({
+				  method: 'POST', url: 'http://localhost:8080/bebida', data: $scope.produto
+				}).then(function successCallback(response) {
+					carregarProdutos();
+				  }, function errorCallback(response) {
+					  $scope.error = response.data.message;
+				  });
+		}
+		else{
+			$scope.error = '';
+			$http({
+				  method: 'POST', url: 'http://localhost:8080/comida', data: $scope.produto
+				}).then(function successCallback(response) {
+					carregarProdutos();
+				  }, function errorCallback(response) {
+					  $scope.error = response.data.message;
+				  });
+		}
+		
 	};
 	
 	$scope.removerProduto = function(id){
