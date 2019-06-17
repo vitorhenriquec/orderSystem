@@ -53,7 +53,7 @@ public class PedidoController {
 			Mesa mesa = mesaService.buscarPorId(pedido.getMesa().getId()).get();
 				
 			for(Produto produto : pedido.getProdutos()) {
-				Produto produtoDB = produtoService.buscarPorId(produto.getId()).get();
+				Produto produtoDB = produtoService.buscarPorId(produto.getId());
 				produtoDB.getPedido().add(pedido);
 				produtos.add(produtoDB);
 			}

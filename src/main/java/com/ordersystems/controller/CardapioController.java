@@ -64,7 +64,7 @@ public class CardapioController {
 			List<Produto> produtos = new ArrayList<>();
 			
 			for(Produto produto : cardapio.getProdutos()) {
-				Produto produtoDB = produtosService.buscarPorId(produto.getId()).get();
+				Produto produtoDB = produtosService.buscarPorId(produto.getId());
 				
 				produtoDB.getCardapios().add(cardapio);
 				
@@ -90,7 +90,7 @@ public class CardapioController {
 			List<Produto> produtos = new ArrayList<>();
 			
 			for(Produto produto : cardapio.getProdutos()) {
-				Produto produtoDB = produtosService.buscarPorId(produto.getId()).get();
+				Produto produtoDB = produtosService.buscarPorId(produto.getId());
 				
 				produtoDB.getCardapios().add(cardapio);
 				
