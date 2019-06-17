@@ -10,8 +10,10 @@ public class Limpeza extends Produto{
 	public Limpeza(){
 	}
 	
-	public Limpeza(String descricao){
+	public Limpeza(String nome, double preco, String descricao){
 		this.descricao = descricao;
+		this.setNome(nome);
+		this.setPreco(preco);
 	}
 
 	public String getDescricao() {

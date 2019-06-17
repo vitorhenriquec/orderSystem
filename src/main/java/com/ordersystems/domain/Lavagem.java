@@ -10,7 +10,9 @@ public class Lavagem extends Produto{
 	public Lavagem(){
 	}
 	
-	public Lavagem(String descricao){
+	public Lavagem(String nome, double preco, String descricao){
+		this.setNome(nome);
+		this.setPreco(preco);
 		this.descricao = descricao;
 	}
 
