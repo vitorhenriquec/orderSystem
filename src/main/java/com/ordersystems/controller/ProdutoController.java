@@ -34,7 +34,7 @@ public class ProdutoController {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST,value="/bebida",consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> adicionarProduto(@RequestBody Bebida produto) {
+	public ResponseEntity<?> adicionarBebida(@RequestBody Bebida produto) {
 		try {
 			service.adicionar(produto);
 		} catch (NegocioException e) {
