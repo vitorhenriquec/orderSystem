@@ -1,11 +1,9 @@
 package com.ordersystems.service;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,29 +50,23 @@ public class PedidoService {
 		criarInformacao.put("valorTotal", "0.0");
 		criarInformacao.put("valorFinal", "0.0");
 		
-		double valorProdutosUnicos = 0.0;
 		double valorPedido = 0.0;
-		
-		Set<Produto> produtosUnicosConta = new HashSet<Produto>();
+		int quantProdutos = 0;
 		for(Pedido pedido:pedidos) {
 			Pedido pedidoEncontrado = this.buscarPorId(pedido.getId()).get();
+			quantProdutos += pedidoEncontrado.getProdutos().size();
 			for(Produto p:pedidoEncontrado.getProdutos()) {
-				valorPedido += p.getPreco();
-				produtosUnicosConta.add(p);
+				valorPedido+=p.getPreco();
 			}
 		
 		}
 		
-		for(Produto p: produtosUnicosConta) {
-			valorProdutosUnicos+=p.getPreco();
-		}
-		
-		if(produtosUnicosConta.size() > 3) {
-			regra = new QuantidadeProdutosUnico();
+		if(valorPedido > 50.0) {
+			regra = new RegraPromocaoValor();
 			criarInformacao = regra.gerarInformacao(valorPedido);
 		}
-		else if(valorProdutosUnicos >= 100.0) {
-			regra = new ValorProdutosUnico();
+		else if(quantProdutos >= 3) {
+			regra = new RegraPromocaoQuantidade();
 			criarInformacao = regra.gerarInformacao(valorPedido);
 		}
 		else {
