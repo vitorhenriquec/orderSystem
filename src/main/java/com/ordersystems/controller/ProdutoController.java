@@ -1,7 +1,9 @@
 package com.ordersystems.controller;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,23 +17,26 @@ import com.ordersystems.domain.Bebida;
 import com.ordersystems.domain.Comida;
 import com.ordersystems.domain.Produto;
 import com.ordersystems.exception.NegocioException;
-import com.ordersystems.service.ProdutoService;
+import com.ordersystems.service.Service;
 
 @Controller
 @RestController
 public class ProdutoController {
-	@Autowired
-	private ProdutoService produtoService;
+	private Service<Produto> service;
 	
 	@RequestMapping(method=RequestMethod.GET,value="/produto",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> buscarProdutos(){
-		return new ResponseEntity<>(produtoService.buscarTodos(),HttpStatus.OK);
+		List<Produto> produtos = new ArrayList<Produto>();
+		if(service.buscarTodos() != null) {
+			produtos = service.buscarTodos();
+		}
+		return new ResponseEntity<>(produtos,HttpStatus.OK);
 	}
 	
 	@RequestMapping(method=RequestMethod.POST,value="/bebida",consumes = MediaType.APPLICATION_JSON_VALUE)
-	public <T extends Produto>ResponseEntity<?> adicionarBebida(@RequestBody Bebida produto) {
+	public ResponseEntity<?> adicionarProduto(@RequestBody Bebida produto) {
 		try {
-			produtoService.adicionar(produto);
+			service.adicionar(produto);
 		} catch (NegocioException e) {
 			e.printStackTrace();
 			return new ResponseEntity<Object>(e, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -40,9 +45,9 @@ public class ProdutoController {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST,value="/comida",consumes = MediaType.APPLICATION_JSON_VALUE)
-	public <T extends Produto>ResponseEntity<?> adicionarComida(@RequestBody Comida produto) {
+	public ResponseEntity<?> adicionarComida(@RequestBody Comida produto) {
 		try {
-			produtoService.adicionar(produto);
+			service.adicionar(produto);
 		} catch (NegocioException e) {
 			e.printStackTrace();
 			return new ResponseEntity<Object>(e, HttpStatus.INTERNAL_SERVER_ERROR);
