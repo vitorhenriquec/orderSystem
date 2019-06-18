@@ -61,11 +61,11 @@ public class PedidoService {
 		
 		}
 		
-		if(valorPedido >= 100.0) {
+		if(valorPedido >= 300.00) {
 			regra = new RegraPromocaoValor();
 			criarInformacao = regra.gerarInformacao(valorPedido);
 		}
-		else if(quantProdutos > 4) {
+		else if(quantProdutos > 5) {
 			regra = new RegraPromocaoQuantidade();
 			criarInformacao = regra.gerarInformacao(valorPedido);
 		}
