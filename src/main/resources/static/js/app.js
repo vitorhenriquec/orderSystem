@@ -18,27 +18,14 @@ appOrderSystem.controller("produtoController", function($scope,$http){
 	};
 	
 	$scope.salvarProduto = function(){
-		if("litros" in produto){
-			$scope.error = '';
-			$http({
-				  method: 'POST', url: 'http://localhost:8080/bebida', data: $scope.produto
-				}).then(function successCallback(response) {
-					carregarProdutos();
-				  }, function errorCallback(response) {
-					  $scope.error = response.data.message;
-				  });
-		}
-		else{
-			$scope.error = '';
-			$http({
-				  method: 'POST', url: 'http://localhost:8080/comida', data: $scope.produto
-				}).then(function successCallback(response) {
-					carregarProdutos();
-				  }, function errorCallback(response) {
-					  $scope.error = response.data.message;
-				  });
-		}
-		
+		$scope.error = '';
+		$http({
+			  method: 'POST', url: 'http://localhost:8080/produto', data: $scope.produto
+			}).then(function successCallback(response) {
+				carregarProdutos();
+			  }, function errorCallback(response) {
+				  $scope.error = response.data.message;
+			  });
 	};
 	
 	$scope.removerProduto = function(id){
@@ -64,6 +51,7 @@ appOrderSystem.controller("produtoController", function($scope,$http){
 	$scope.cancelar = function(){
 		$scope.produto = {};
 	}; 
+	
 	carregarProdutos();
 });
 
@@ -91,8 +79,6 @@ appOrderSystem.controller("restauranteController", function($scope,$http){
 			}).then(function successCallback(response) {
 				carregarRestaurante();
 			  }, function errorCallback(response) {
-//				  console.log(response);
-//				  alert(response.data.message);
 				  $scope.error = response.data.message;
 			  });
 	};
@@ -365,7 +351,8 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 	$scope.success = false;
 	$scope.cardapioAtivo = false;
 	$scope.pedidosMesa = [];
-	
+	$scope.dadosPagamento = {};
+		
 	init = function () {
 		carregarPedidos();
 	};
@@ -416,10 +403,12 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 	
 	getPedidosMesa = function(idMesa){
 		for(var i = 0; i < $scope.pedidos.length; i++){
-			if ($scope.pedidos[i].mesa.id === $scope.mesaPedido.id) {
+			var estadoPedido = $scope.pedidos[i]['estadoPedido'];
+			if ($scope.pedidos[i].mesa.id === $scope.mesaPedido.id && estadoPedido == "AGUARDANDO") {
 				$scope.pedidosMesa.push($scope.pedidos[i]);
 			}
 		}
+		getPrecoPromocao();
 	};
 		
 	carregarCardapioAtivo = function(){
@@ -446,20 +435,42 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 		for(var i = 0; i < $scope.pedidosMesa.length; i++) {
 			var pedidoFinalizado = $scope.pedidosMesa[i];
 			pedidoFinalizado.estadoPedido = "PAGO";
-			
-			console.log(pedidoFinalizado);
-			
+						
 			$http({
 				method: 'POST',
 				url: 'http://localhost:8080/mudarEstado',
 				data: pedidoFinalizado
 			}).then(function successCallback(response) {
-				console.log(response);
+				console.log(response.status);
 			}, function errorCallback(response) {
 				console.log(response.status);
-			});
+			});			
 		}
 	};
+	
+	getPrecoPromocao = function(){
+		$http({
+			method: 'POST',
+			url: 'http://localhost:8080/desconto',
+			data: $scope.pedidosMesa
+		}).then(function successCallback(response) {
+			
+			$scope.dadosPagamento = response.data;
+			console.log($scope.dadosPagamento);
+			/*console.log(dadosPagamento);
+			var mensagemPagamento = "Compra finalizada!\n ";
+			
+			if("valorTotal" in dadosPagamento){
+				mensagemPagamento += dadosPagamento["mensagem"] + " \n Valor Total do Pedido: " + dadosPagamento["valorTotal"] + "\n Total a pagar: " + dadosPagamento["valorFinal"];
+			}
+			else{
+				mensagemPagamento = "Total a pagar: " + dadosPagamento["valorFinal"];
+			}
+			alert(mensagemPagamento);*/			
+		}, function errorCallback(response) {
+			console.log(response.status);
+		});
+	}
 	
 	$scope.fazerPedido = function(){
 		getMesa();
@@ -511,6 +522,13 @@ appOrderSystem.controller("pedidoController", function($scope,$http){
 	init();
 });
 
-appOrderSystem.controller("indexController", function(){
-	
+
+$(document).ready(function(){
+  $("#bebida").click(function(){
+  	$("#produto").empty();
+    $("#produto").html("<div class='form-group'>"+"<label class='control-label col-sm-2' for='nomeProduto'>Nome do produto:</label>"+"<div class='col-sm-5'><input type='text' class='form-control' id='nomeProduto' required='required' ng-model='produto.nome'/></div></div><div class='form-group'><label class='control-label col-sm-2' for='precoProduto'>Preço do produto:</label><div class='col-sm-2'><input type='text' class='form-control' id='precoProduto' required='required' ng-model='produto.preco'/></div></div><div class='form-group'><div class='col-sm-offset-2 col-sm-10'><input type='button' value='Salvar' class='btn btn-primary' ng-click='salvarProduto()'/><input type='button' value='Cancelar' class='btn btn-primary' ng-click='cancelar()'/></div></div>");
+  });
+  $("#comida").click(function(){
+	  	$("#produto").empty();
+  });
 });
